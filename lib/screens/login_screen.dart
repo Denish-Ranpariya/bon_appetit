@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
-                        blurRadius: 10.0, // soften the shadow
+                        blurRadius: 15.0, // soften the shadow
                         spreadRadius: 0.0, //extend the shadow
                         offset: Offset(
                           4.0,
