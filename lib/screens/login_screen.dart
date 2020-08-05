@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffbbc05),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 110),
             Expanded(
-              flex: 2,
-              child: Image.asset('images/chef.png'),
+              flex: 1,
+              child: Image.asset('images/soup.png', height: 200, width: 200,),
             ),
             Expanded(
               child: Text(
                 'Bon Appetit',
                 style: GoogleFonts.sriracha(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 45,
-                  color: Colors.black,
+                  fontSize: 40,
+                  color: Colors.amber[500],
                 ),
               ),
             ),
             GestureDetector(
-              onTap: (){},
+              onTap: () {},
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Container(
@@ -41,8 +41,8 @@ class LoginScreen extends StatelessWidget {
                         blurRadius: 10.0, // soften the shadow
                         spreadRadius: 0.0, //extend the shadow
                         offset: Offset(
-                          4.0, // Move to right 10  horizontally
-                          4.0, // Move to bottom 10 Vertically
+                          4.0,
+                          4.0,
                         ),
                       )
                     ],
@@ -52,7 +52,8 @@ class LoginScreen extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         flex: 1,
-                        child: SvgPicture.asset('images/google_logo.svg',height: 30),
+                        child: SvgPicture.asset('images/google_logo.svg',
+                            height: 30),
                       ),
                       Expanded(
                         flex: 3,
@@ -61,8 +62,7 @@ class LoginScreen extends StatelessWidget {
                           style: GoogleFonts.roboto(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
-
+                            color: Colors.grey[600],
                           ),
                         ),
                       ),
