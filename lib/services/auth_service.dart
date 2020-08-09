@@ -15,8 +15,8 @@ class AuthService {
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
 
-    final AuthResult result =  await _auth.signInWithCredential(credential);
-    
+    final AuthResult result = await _auth.signInWithCredential(credential);
+
     return result.user;
   }
 
@@ -29,5 +29,4 @@ class AuthService {
     await _auth.signOut();
     print('logged out');
   }
-
 }

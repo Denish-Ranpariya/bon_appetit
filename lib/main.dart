@@ -11,17 +11,19 @@ void main() {
 class BonAppetit extends StatelessWidget {
   const BonAppetit({Key key}) : super(key: key);
 
+  
+
   @override
   Widget build(BuildContext context) {
     return StreamProvider<FirebaseUser>.value(
-      value: AuthService().user,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        value: AuthService().user,
+        child: MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: Wrapper(),
         ),
-        home: Wrapper(),
-      ),
-    );
+      );
   }
 }
