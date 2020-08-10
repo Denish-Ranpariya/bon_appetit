@@ -55,7 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading = false;
                         });
                       } catch (e) {
-                        print(e.toString());
+                        setState(() {
+                          isLoading = false;
+                        });
                       }
                     },
                     child: Padding(
