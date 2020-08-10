@@ -1,9 +1,12 @@
 //import 'package:bon_appetit/services/auth_service.dart';
+import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/loading.dart';
 import 'package:bon_appetit/widgets/custom_text_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -14,8 +17,10 @@ class _FormScreenState extends State<FormScreen> {
   String restaurantName = '', ownerName = '', phoneNumber = '', address = '', city = '';
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
     return isLoading
         ? Loading()
         : Scaffold(
@@ -198,11 +203,19 @@ class _FormScreenState extends State<FormScreen> {
                             child: MaterialButton(
                               onPressed: () async {
                                 if (formKey.currentState.validate()) {
-                                  print(restaurantName);
-                                  print(ownerName);
-                                  print(phoneNumber);
-                                  print(address);
-                                  print(city);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  await DatabaseService(uid: user.uid).updateUserData(
+                                    restaurantName,
+                                    ownerName,
+                                    phoneNumber,
+                                    address,
+                                    city
+                                  );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
                                 }
                               },
                               child: Center(
