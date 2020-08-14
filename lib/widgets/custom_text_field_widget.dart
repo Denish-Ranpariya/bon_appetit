@@ -15,15 +15,16 @@ class CustomTextField extends StatelessWidget {
       child: Container(
         child: Card(
           child: ListTile(
-            leading: SvgPicture.asset("images/$image",color: Colors.grey),
+            leading: SvgPicture.asset("images/$image",color: Colors.teal[400]),
             title: TextFormField(
               validator: validator,
-              cursorColor: Colors.amber[500],
+              cursorColor: Colors.teal[400],
               maxLines: maxLine,
               decoration: InputDecoration(
                 hintStyle: TextStyle(color: Colors.grey,fontSize: 18.0),
                 hintText: hintText,
                 border: InputBorder.none,
+                focusedBorder: InputBorder.none,
               ),
               onChanged: onChange,
             ),
@@ -32,8 +33,8 @@ class CustomTextField extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              blurRadius: 5.0,
-              color: Colors.grey.withOpacity(.3),
+              blurRadius: 7.0,
+              color: Colors.grey.withOpacity(.1),
               offset: Offset(1.5, 2.0),
             ),
           ],

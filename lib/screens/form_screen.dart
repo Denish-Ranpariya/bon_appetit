@@ -78,7 +78,7 @@ class _FormScreenState extends State<FormScreen> {
                           Text(
                             "Register Your Restaurant",
                             style: TextStyle(
-                              color: Colors.grey,
+                              color: Colors.grey[700],
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
                             ),

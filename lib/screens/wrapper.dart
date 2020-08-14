@@ -1,3 +1,4 @@
+import 'package:bon_appetit/services/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,8 @@ class _WrapperState extends State<Wrapper> {
       ),
     );
   }
+
+  SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
   @override
   Widget build(BuildContext context) {
     // will return login screen or form screen
