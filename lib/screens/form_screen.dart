@@ -1,5 +1,6 @@
-//import 'package:bon_appetit/services/auth_service.dart';
+import 'package:bon_appetit/services/auth_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/services/shared_preferences.dart';
 import 'package:bon_appetit/shared/loading.dart';
 import 'package:bon_appetit/widgets/custom_text_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,37 +15,55 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  String restaurantName = '', ownerName = '', phoneNumber = '', address = '', city = '';
+  String restaurantName = '',
+      ownerName = '',
+      phoneNumber = '',
+      address = '',
+      city = '';
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
-  
+
+  bool _disposed = false;
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<FirebaseUser>(context);
     return isLoading
         ? Loading()
         : Scaffold(
-//            appBar: AppBar(
-//              title: Text('Bon Appetit'),
-//              actions: <Widget>[
-//                IconButton(
-//                  icon: Icon(Icons.person),
-//                  onPressed: () async {
-//                    try {
-//                      setState(() {
-//                        isLoading = true;
-//                      });
-//                      await AuthService().logout();
-//                      setState(() {
-//                        isLoading = false;
-//                      });
-//                    } catch (e) {
-//                      print(e.toString());
-//                    }
-//                  },
-//                ),
-//              ],
-//            ),
+            appBar: AppBar(
+              title: Text('Bon Appetit'),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () async {
+                    try {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await AuthService().logout();
+                      await SharedPreferencesHelper().setLoginStatus(false);
+                      if (!_disposed) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
             backgroundColor: Colors.white,
             body: Form(
               key: formKey,
@@ -206,13 +225,9 @@ class _FormScreenState extends State<FormScreen> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  await DatabaseService(uid: user.uid).updateUserData(
-                                    restaurantName,
-                                    ownerName,
-                                    phoneNumber,
-                                    address,
-                                    city
-                                  );
+                                  await DatabaseService(uid: user.uid)
+                                      .updateUserData(restaurantName, ownerName,
+                                          phoneNumber, address, city);
                                   setState(() {
                                     isLoading = false;
                                   });
