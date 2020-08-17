@@ -1,6 +1,5 @@
 import 'package:bon_appetit/services/auth_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
-import 'package:bon_appetit/services/shared_preferences.dart';
 import 'package:bon_appetit/shared/loading.dart';
 import 'package:bon_appetit/widgets/custom_text_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,7 +47,6 @@ class _FormScreenState extends State<FormScreen> {
                         isLoading = true;
                       });
                       await AuthService().logout();
-                      await SharedPreferencesHelper().setLoginStatus(false);
                       if (!_disposed) {
                         setState(() {
                           isLoading = false;

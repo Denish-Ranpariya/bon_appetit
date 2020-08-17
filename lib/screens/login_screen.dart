@@ -1,5 +1,4 @@
 import 'package:bon_appetit/services/auth_service.dart';
-import 'package:bon_appetit/services/shared_preferences.dart';
 import 'package:bon_appetit/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
   bool _disposed = false;
-  
+
   @override
   void dispose() {
     _disposed = true;
@@ -58,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         AuthService authService = new AuthService();
                         FirebaseUser firebaseUser =
                             await authService.signInWithGoogle();
-                        await SharedPreferencesHelper().setLoginStatus(true);
                         print(firebaseUser.uid);
 
                         if (!_disposed) {
