@@ -37,10 +37,19 @@ class _FormScreenState extends State<FormScreen> {
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: Text('Bon Appetit'),
+              backgroundColor: Color(0xFFc9e3db),
+              elevation: 0,
+              title: Text(
+                'Bon Appetit',
+                style: TextStyle(color: Colors.grey[800]),
+              ),
               actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.person),
+                FlatButton.icon(
+                  label: Text('logout'),
+                  icon: Icon(
+                    Icons.exit_to_app,
+                    color: Colors.grey[800],
+                  ),
                   onPressed: () async {
                     try {
                       setState(() {
@@ -81,7 +90,7 @@ class _FormScreenState extends State<FormScreen> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 30.0,
+                            height: 25.0,
                           ),
                           Expanded(
                             child: SvgPicture.asset(
