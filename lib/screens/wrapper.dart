@@ -1,3 +1,5 @@
+import 'package:bon_appetit/screens/category_screen.dart';
+import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,12 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  String status = '';
+
+  void setStatus(String uid) async {
+    status = await DatabaseService(uid: uid).getRegisterStatus();
+  }
+
   Future<bool> onPressedBack() {
     return showDialog(
       context: context,
@@ -40,10 +48,16 @@ class _WrapperState extends State<Wrapper> {
     // will return login screen or form screen
     final user = Provider.of<FirebaseUser>(context);
     //return either home or authenticate widget
+
     if (user == null) {
       return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
     } else {
-      return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
+      setStatus(user.uid);
+      if (status != 'true') {
+        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
+      } else {
+        return CategoryScreen();
+      }
     }
   }
 }

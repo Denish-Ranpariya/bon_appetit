@@ -235,6 +235,8 @@ class _FormScreenState extends State<FormScreen> {
                                   await DatabaseService(uid: user.uid)
                                       .updateUserData(restaurantName, ownerName,
                                           phoneNumber, address, city);
+                                  await DatabaseService(uid: user.uid)
+                                      .getRegisterStatus();
                                   setState(() {
                                     isLoading = false;
                                   });
