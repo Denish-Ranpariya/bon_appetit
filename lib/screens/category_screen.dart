@@ -16,6 +16,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   bool _disposed = false;
 
+
+
   @override
   void dispose() {
     _disposed = true;

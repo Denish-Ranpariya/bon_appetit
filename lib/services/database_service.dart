@@ -15,12 +15,16 @@ class DatabaseService {
       'restaurant_address': restaurantAddress,
       'city': city,
       'is_registered': 'true',
+      //'restaurant_category': uid.toString() + 'category'
     });
   }
 
   Future<String> getRegisterStatus() async {
     return await restaurantCollection.document(uid).get().then((value) {
-      return value.data['is_registered'];
+      if (value.exists) {
+        return value.data['is_registered'];
+      }
+      return 'false';
     });
   }
 }
