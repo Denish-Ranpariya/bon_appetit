@@ -16,8 +16,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   bool _disposed = false;
 
-
-
   @override
   void dispose() {
     _disposed = true;
@@ -142,7 +140,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ),
                   title: Text(
-                    'Manoj',
+                    'Kathiyavadi',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),

@@ -37,6 +37,7 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   cloud_firestore: ^0.13.7
   qr_flutter: ^3.2.0
+  random_string: ^2.1.0
   
 
 dev_dependencies:

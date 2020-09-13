@@ -27,4 +27,14 @@ class DatabaseService {
       return 'false';
     });
   }
+
+  Future<void> insertCategoryData(String id, String name) async {
+    String categoryCollectionName = uid + 'category';
+    final CollectionReference categoryCollection =
+        Firestore.instance.collection(categoryCollectionName);
+    return await categoryCollection.document(id).setData({
+      'category_id': id,
+      'category_name': name,
+    });
+  }
 }
