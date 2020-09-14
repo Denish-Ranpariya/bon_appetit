@@ -3,7 +3,6 @@ import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'add_category_screen.dart';
 
 class CategoryTile extends StatelessWidget {
@@ -12,11 +11,34 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<bool> showAlertBox() {
+      return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Do you really want to delete this item?'),
+          actions: [
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     return Card(
       margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
       child: ListTile(
         title: Text(
-          category.categoryName,
+          category.categoryName ?? '',
           style: TextStyle(
             color: Colors.grey[800],
             fontWeight: FontWeight.w400,
@@ -34,6 +56,7 @@ class CategoryTile extends StatelessWidget {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
+                  isScrollControlled: true,
                   builder: (context) => AddCategory(
                     isAdded: true,
                     category: category,
@@ -47,10 +70,13 @@ class CategoryTile extends StatelessWidget {
                 color: Colors.teal[400],
               ),
               onPressed: () async {
-                await DatabaseService(
-                        uid: Provider.of<FirebaseUser>(context, listen: false)
-                            .uid)
-                    .deleteCategory(category.categoryId);
+                bool result = await showAlertBox();
+                if (result) {
+                  await DatabaseService(
+                          uid: Provider.of<FirebaseUser>(context, listen: false)
+                              .uid)
+                      .deleteCategory(category.categoryId);
+                }
               },
             )
           ],

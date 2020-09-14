@@ -46,6 +46,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) => AddCategory(isAdded: false),
                   );
                 },
@@ -138,9 +139,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  Container(
-                    child: CategoryList(),
-                  ),
+
+                  Expanded(child: CategoryList()),
                   // Container(
                   //   padding: EdgeInsets.symmetric(horizontal: 25.0,vertical: 0.0),
                   //   height: 60.0,

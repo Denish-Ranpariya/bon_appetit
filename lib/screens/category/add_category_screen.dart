@@ -22,6 +22,7 @@ class _AddCategoryState extends State<AddCategory> {
 
   @override
   Widget build(BuildContext context) {
+    //categoryName = widget.category.categoryName;
     return Form(
       key: _formKey,
       child: Container(
@@ -30,12 +31,12 @@ class _AddCategoryState extends State<AddCategory> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30.0),
-                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(15.0),
+                topLeft: Radius.circular(15.0),
               ),
             ),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.75,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -69,7 +70,9 @@ class _AddCategoryState extends State<AddCategory> {
                       },
                       autofocus: true,
                       onChanged: (newText) {
-                        categoryName = newText;
+                        setState(() {
+                          categoryName = newText;
+                        });
                       },
                       decoration: InputDecoration(
                         hintText: 'Category Name',
@@ -116,7 +119,9 @@ class _AddCategoryState extends State<AddCategory> {
                                             listen: false)
                                         .uid)
                                 .insertCategoryData(
-                                    widget.category.categoryId, categoryName);
+                                    widget.category.categoryId,
+                                    categoryName ??
+                                        widget.category.categoryName);
                           } else {
                             String id = randomAlphaNumeric(22);
 

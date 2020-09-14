@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import 'category_screen.dart';
+import 'category/category_screen.dart';
 
 class FormScreen extends StatefulWidget {
   @override

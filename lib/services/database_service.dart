@@ -44,8 +44,8 @@ class DatabaseService {
     return snapshot.documents.map((doc) {
       //print(doc.data);
       return Category(
-          categoryId: doc.data['category_id'] ?? null,
-          categoryName: doc.data['category_name'] ?? null);
+          categoryId: doc.data['category_id'],
+          categoryName: doc.data['category_name']);
     }).toList();
   }
 

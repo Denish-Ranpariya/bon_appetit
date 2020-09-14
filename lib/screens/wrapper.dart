@@ -1,10 +1,11 @@
-import 'package:bon_appetit/screens/category_screen.dart';
+import 'file:///C:/Users/gfd/AndroidStudioProjects/bon_appetit/lib/screens/category/category_screen.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'fooditem/food_items_screen.dart';
 import 'form_screen.dart';
 import 'login_screen.dart';
 
@@ -52,12 +53,13 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
     } else {
-      setStatus(user.uid);
-      if (status != 'true') {
-        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
-      } else {
-        return CategoryScreen();
-      }
+//      setStatus(user.uid);
+//      if (status != 'true') {
+//        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
+//      } else {
+//        return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
+//      }
+      return FoodItemsScreen();
     }
   }
 }
