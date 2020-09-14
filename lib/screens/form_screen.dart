@@ -28,6 +28,12 @@ class _FormScreenState extends State<FormScreen> {
 
   bool isRegistered = false;
 
+  String status = '';
+
+  void setStatus(String uid) async {
+    status = await DatabaseService(uid: uid).getRegisterStatus();
+  }
+
   @override
   void dispose() {
     _disposed = true;
@@ -39,7 +45,7 @@ class _FormScreenState extends State<FormScreen> {
     final user = Provider.of<FirebaseUser>(context);
     return isLoading
         ? Loading()
-        : isRegistered
+        : status == 'true'
             ? CategoryScreen()
             : Scaffold(
                 appBar: AppBar(

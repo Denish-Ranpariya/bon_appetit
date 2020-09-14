@@ -1,5 +1,9 @@
+import 'package:bon_appetit/services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 
 class AddCategory extends StatefulWidget {
   @override
@@ -95,9 +99,17 @@ class _AddCategoryState extends State<AddCategory> {
                         ),
                       ),
                       color: Colors.grey[600],
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           print(categoryName);
+                          String id = randomAlphaNumeric(22);
+
+                          await DatabaseService(
+                                  uid: Provider.of<FirebaseUser>(context,
+                                          listen: false)
+                                      .uid)
+                              .insertCategoryData(id, categoryName);
+
                           Navigator.pop(context);
                         }
                       },

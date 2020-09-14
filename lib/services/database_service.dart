@@ -1,3 +1,4 @@
+import 'package:bon_appetit/models/category.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -36,5 +37,23 @@ class DatabaseService {
       'category_id': id,
       'category_name': name,
     });
+  }
+
+  //return list of category
+  List<Category> _categoryListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      //print(doc.data);
+      return Category(
+          categoryId: doc.data['category_id'] ?? null,
+          categoryName: doc.data['category_name'] ?? null);
+    }).toList();
+  }
+
+  //stream of category
+  Stream<List<Category>> get categories {
+    String categoryCollectionName = uid + 'category';
+    final CollectionReference categoryCollection =
+        Firestore.instance.collection(categoryCollectionName);
+    return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
 }
