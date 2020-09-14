@@ -56,4 +56,11 @@ class DatabaseService {
         Firestore.instance.collection(categoryCollectionName);
     return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
+
+  Future<void> deleteCategory(String documentId) async {
+    String categoryCollectionName = uid + 'category';
+    final CollectionReference categoryCollection =
+        Firestore.instance.collection(categoryCollectionName);
+    await categoryCollection.document(documentId).delete();
+  }
 }

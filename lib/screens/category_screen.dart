@@ -46,7 +46,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
-                    builder: (context) => AddCategory(),
+                    builder: (context) => AddCategory(isAdded: false),
                   );
                 },
                 child: Icon(Icons.add),

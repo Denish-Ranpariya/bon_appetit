@@ -1,3 +1,4 @@
+import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
 class AddCategory extends StatefulWidget {
+  final bool isAdded;
+  final Category category;
+
+  AddCategory({this.isAdded, this.category});
+
   @override
   _AddCategoryState createState() => _AddCategoryState();
 }
@@ -42,7 +48,7 @@ class _AddCategoryState extends State<AddCategory> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      'Add Category',
+                      widget.isAdded ? 'Edit Category' : 'Add Category',
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w600,
@@ -53,6 +59,8 @@ class _AddCategoryState extends State<AddCategory> {
                       height: 20.0,
                     ),
                     TextFormField(
+                      initialValue:
+                          widget.isAdded ? widget.category.categoryName : null,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter the name of category';
@@ -92,7 +100,7 @@ class _AddCategoryState extends State<AddCategory> {
                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       ),
                       child: Text(
-                        'Add',
+                        widget.isAdded ? 'Edit' : 'Add',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -102,13 +110,22 @@ class _AddCategoryState extends State<AddCategory> {
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           print(categoryName);
-                          String id = randomAlphaNumeric(22);
+                          if (widget.isAdded) {
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertCategoryData(
+                                    widget.category.categoryId, categoryName);
+                          } else {
+                            String id = randomAlphaNumeric(22);
 
-                          await DatabaseService(
-                                  uid: Provider.of<FirebaseUser>(context,
-                                          listen: false)
-                                      .uid)
-                              .insertCategoryData(id, categoryName);
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertCategoryData(id, categoryName);
+                          }
 
                           Navigator.pop(context);
                         }

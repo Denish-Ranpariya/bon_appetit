@@ -1,5 +1,10 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'add_category_screen.dart';
 
 class CategoryTile extends StatelessWidget {
   final Category category;
@@ -26,14 +31,27 @@ class CategoryTile extends StatelessWidget {
                 Icons.edit,
                 color: Colors.teal[400],
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => AddCategory(
+                    isAdded: true,
+                    category: category,
+                  ),
+                );
+              },
             ),
             IconButton(
               icon: Icon(
                 Icons.delete,
                 color: Colors.teal[400],
               ),
-              onPressed: () {},
+              onPressed: () async {
+                await DatabaseService(
+                        uid: Provider.of<FirebaseUser>(context, listen: false)
+                            .uid)
+                    .deleteCategory(category.categoryId);
+              },
             )
           ],
         ),
