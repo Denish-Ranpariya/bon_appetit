@@ -63,4 +63,18 @@ class DatabaseService {
         Firestore.instance.collection(categoryCollectionName);
     await categoryCollection.document(documentId).delete();
   }
+
+  Future<void> insertFoodItemData(String id, String name, String price,
+      String category, String description) async {
+    String foodItemCollectionName = uid + 'food';
+    final CollectionReference categoryCollection =
+        Firestore.instance.collection(foodItemCollectionName);
+    return await categoryCollection.document(id).setData({
+      'fooditem_id': id,
+      'fooditem_name': name,
+      'fooditem_price': price,
+      'fooditem_category': category,
+      'fooditem_description': description
+    });
+  }
 }

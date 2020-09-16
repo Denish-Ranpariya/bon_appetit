@@ -1,6 +1,12 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 
 class ABC extends StatelessWidget {
   @override
@@ -17,9 +23,12 @@ class AddFoodItem extends StatefulWidget {
 }
 
 class _AddFoodItemState extends State<AddFoodItem> {
-  String categoryName;
+  String foodItemName;
+  String foodItemPrice;
+  String foodItemCategory;
+  String foodItemDescription;
+
   final _formKey = GlobalKey<FormState>();
-  String _value;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -71,7 +80,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       autofocus: true,
                       onChanged: (newText) {
                         setState(() {
-                          categoryName = newText;
+                          foodItemName = newText;
                         });
                       },
                       decoration: InputDecoration(
@@ -106,7 +115,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       autofocus: true,
                       onChanged: (newText) {
                         setState(() {
-                          categoryName = newText;
+                          foodItemPrice = newText;
                         });
                       },
                       decoration: InputDecoration(
@@ -131,25 +140,36 @@ class _AddFoodItemState extends State<AddFoodItem> {
                     SizedBox(
                       height: 20,
                     ),
-                    DropdownButton<String>(
-                      value: _value,
-                      hint: Text('Select Category'),
-                      items: widget.categories.map((Category value) {
-                        return new DropdownMenuItem<String>(
-                          value: value.categoryName,
-                          child: Text(value.categoryName),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _value = value;
-                        });
-                      },
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1.0),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: DropdownButton<String>(
+                        value: foodItemCategory,
+                        underline: SizedBox(),
+                        isExpanded: true,
+                        hint: Text('Select Category'),
+                        items: widget.categories.map((Category value) {
+                          return new DropdownMenuItem<String>(
+                            value: value.categoryName,
+                            child: Text(value.categoryName),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            foodItemCategory = value;
+                          });
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     TextFormField(
+                      maxLines: 3,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter the description of food item';
@@ -159,7 +179,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       autofocus: true,
                       onChanged: (newText) {
                         setState(() {
-                          categoryName = newText;
+                          foodItemDescription = newText;
                         });
                       },
                       decoration: InputDecoration(
@@ -200,7 +220,17 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       color: Colors.grey[600],
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          print(categoryName);
+                          String id = randomAlphaNumeric(22);
+                          await DatabaseService(
+                                  uid: Provider.of<FirebaseUser>(context,
+                                          listen: false)
+                                      .uid)
+                              .insertFoodItemData(
+                                  id,
+                                  foodItemName,
+                                  foodItemPrice,
+                                  foodItemCategory,
+                                  foodItemDescription);
 
                           Navigator.pop(context);
                         }
