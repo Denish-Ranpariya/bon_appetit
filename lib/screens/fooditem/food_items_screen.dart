@@ -1,6 +1,8 @@
+import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/screens/fooditem/add_food_item.dart';
 import 'package:bon_appetit/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class FoodItemsScreen extends StatefulWidget {
@@ -24,6 +26,8 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final categories =
+        Provider.of<List<Category>>(context, listen: false) ?? [];
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -33,7 +37,7 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (context) => AddFoodItem(),
+            builder: (context) => AddFoodItem(categories: categories),
           );
         },
         child: Icon(Icons.add),

@@ -1,6 +1,17 @@
+import 'package:bon_appetit/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class ABC extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AddFoodItem();
+  }
+}
 
 class AddFoodItem extends StatefulWidget {
+  final List<Category> categories;
+  AddFoodItem({this.categories});
   @override
   _AddFoodItemState createState() => _AddFoodItemState();
 }
@@ -8,10 +19,9 @@ class AddFoodItem extends StatefulWidget {
 class _AddFoodItemState extends State<AddFoodItem> {
   String categoryName;
   final _formKey = GlobalKey<FormState>();
-
+  String _value;
   @override
   Widget build(BuildContext context) {
-    //categoryName = widget.category.categoryName;
     return Form(
       key: _formKey,
       child: Container(
@@ -25,7 +35,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
               ),
             ),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -37,6 +47,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 padding: EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
                     Text(
                       'Add Food Item',
                       style: TextStyle(
@@ -114,6 +127,24 @@ class _AddFoodItemState extends State<AddFoodItem> {
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    DropdownButton<String>(
+                      value: _value,
+                      hint: Text('Select Category'),
+                      items: widget.categories.map((Category value) {
+                        return new DropdownMenuItem<String>(
+                          value: value.categoryName,
+                          child: Text(value.categoryName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _value = value;
+                        });
+                      },
                     ),
                     SizedBox(
                       height: 20,
