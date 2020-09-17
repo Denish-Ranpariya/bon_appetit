@@ -1,23 +1,16 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
-
-class ABC extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AddFoodItem();
-  }
-}
 
 class AddFoodItem extends StatefulWidget {
   final List<Category> categories;
-  AddFoodItem({this.categories});
+  final FoodItem foodItem;
+  final isAdded;
+  AddFoodItem({this.categories, this.foodItem, this.isAdded});
   @override
   _AddFoodItemState createState() => _AddFoodItemState();
 }
@@ -60,7 +53,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       height: 20,
                     ),
                     Text(
-                      'Add Food Item',
+                      widget.isAdded ? 'Edit Food Item' : 'Add Food Item',
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontWeight: FontWeight.w600,
@@ -71,6 +64,8 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       height: 20.0,
                     ),
                     TextFormField(
+                      initialValue:
+                          widget.isAdded ? widget.foodItem.foodItemName : null,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter the name of food item';
@@ -106,6 +101,8 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       height: 20.0,
                     ),
                     TextFormField(
+                      initialValue:
+                          widget.isAdded ? widget.foodItem.foodItemPrice : null,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter the price of food item';
@@ -147,9 +144,16 @@ class _AddFoodItemState extends State<AddFoodItem> {
                         border: Border.all(width: 1.0),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
-                      child: DropdownButton<String>(
-                        value: foodItemCategory,
-                        underline: SizedBox(),
+                      child: DropdownButtonFormField<String>(
+                        validator: (value) {
+                          if (value == null)
+                            return 'Please Select a category';
+                          else
+                            return null;
+                        },
+                        value: widget.isAdded
+                            ? widget.foodItem.foodItemCategory
+                            : foodItemCategory,
                         isExpanded: true,
                         hint: Text('Select Category'),
                         items: widget.categories.map((Category value) {
@@ -169,6 +173,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       height: 20,
                     ),
                     TextFormField(
+                      initialValue: widget.isAdded
+                          ? widget.foodItem.foodItemDescription
+                          : null,
                       maxLines: 3,
                       validator: (value) {
                         if (value.isEmpty) {
@@ -211,7 +218,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                         borderRadius: BorderRadius.all(Radius.circular(15.0)),
                       ),
                       child: Text(
-                        'Add',
+                        widget.isAdded ? 'Edit' : 'Add',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -220,17 +227,34 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       color: Colors.grey[600],
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          String id = randomAlphaNumeric(22);
-                          await DatabaseService(
-                                  uid: Provider.of<FirebaseUser>(context,
-                                          listen: false)
-                                      .uid)
-                              .insertFoodItemData(
-                                  id,
-                                  foodItemName,
-                                  foodItemPrice,
-                                  foodItemCategory,
-                                  foodItemDescription);
+                          if (widget.isAdded) {
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertFoodItemData(
+                                    widget.foodItem.foodItemId,
+                                    foodItemName ??
+                                        widget.foodItem.foodItemName,
+                                    foodItemPrice ??
+                                        widget.foodItem.foodItemPrice,
+                                    foodItemCategory ??
+                                        widget.foodItem.foodItemCategory,
+                                    foodItemDescription ??
+                                        widget.foodItem.foodItemDescription);
+                          } else {
+                            String id = randomAlphaNumeric(22);
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertFoodItemData(
+                                    id,
+                                    foodItemName,
+                                    foodItemPrice,
+                                    foodItemCategory,
+                                    foodItemDescription);
+                          }
 
                           Navigator.pop(context);
                         }

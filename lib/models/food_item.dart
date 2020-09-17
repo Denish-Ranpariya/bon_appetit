@@ -2,7 +2,7 @@ class FoodItem {
   String foodItemId;
   String foodItemName;
   String foodItemCategory;
-  int foodItemPrice;
+  String foodItemPrice;
   String foodItemDescription;
 
   FoodItem({

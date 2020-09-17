@@ -1,4 +1,5 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/models/food_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -57,6 +58,8 @@ class DatabaseService {
     return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
 
+  // delete category
+  //todo: also delete food items of particular category
   Future<void> deleteCategory(String documentId) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
@@ -67,14 +70,43 @@ class DatabaseService {
   Future<void> insertFoodItemData(String id, String name, String price,
       String category, String description) async {
     String foodItemCollectionName = uid + 'food';
-    final CollectionReference categoryCollection =
+    final CollectionReference foodItemCollection =
         Firestore.instance.collection(foodItemCollectionName);
-    return await categoryCollection.document(id).setData({
+    return await foodItemCollection.document(id).setData({
       'fooditem_id': id,
       'fooditem_name': name,
       'fooditem_price': price,
       'fooditem_category': category,
       'fooditem_description': description
     });
+  }
+
+  //stream of food items
+  Stream<List<FoodItem>> get foodItems {
+    String foodItemCollectionName = uid + 'food';
+    final CollectionReference foodItemCollection =
+        Firestore.instance.collection(foodItemCollectionName);
+    return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
+  }
+
+  //mapping of food items
+  List<FoodItem> _foodItemsListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      //print(doc.data);
+      return FoodItem(
+          foodItemId: doc.data['fooditem_id'],
+          foodItemName: doc.data['fooditem_name'],
+          foodItemPrice: doc.data['fooditem_price'],
+          foodItemCategory: doc.data['fooditem_category'],
+          foodItemDescription: doc.data['fooditem_description']);
+    }).toList();
+  }
+
+  //delete food item
+  Future<void> deleteFoodItem(String documentId) async {
+    String foodItemCollectionName = uid + 'food';
+    final CollectionReference foodItemCollection =
+        Firestore.instance.collection(foodItemCollectionName);
+    await foodItemCollection.document(documentId).delete();
   }
 }
