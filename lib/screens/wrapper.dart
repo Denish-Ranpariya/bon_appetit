@@ -16,9 +16,9 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   String status = '';
 
-  void setStatus(String uid) async {
-    status = await DatabaseService(uid: uid).getRegisterStatus();
-  }
+//  void setStatus(String uid) async {
+//    status = await DatabaseService(uid: uid).getRegisterStatus();
+//  }
 
   Future<bool> onPressedBack() {
     return showDialog(
@@ -52,12 +52,23 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
     } else {
-      setStatus(user.uid);
-      if (status != 'true') {
-        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
-      } else {
-        return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
-      }
+      return FutureBuilder<String>(
+          future: DatabaseService(uid: user.uid).getRegisterStatus,
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.hasData) {
+              return WillPopScope(
+                  onWillPop: onPressedBack, child: CategoryScreen());
+            } else {
+              return WillPopScope(
+                  onWillPop: onPressedBack, child: FormScreen());
+            }
+          });
+//      setStatus(user.uid);
+//      if (status != 'true') {
+//        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
+//      } else {
+//        return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
+//      }
 //      return StreamProvider<List<Category>>.value(
 //          value: DatabaseService(uid: user.uid).categories,
 //          child:

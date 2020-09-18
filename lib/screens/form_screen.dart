@@ -31,9 +31,9 @@ class _FormScreenState extends State<FormScreen> {
 
   String status = '';
 
-  void setStatus(String uid) async {
-    status = await DatabaseService(uid: uid).getRegisterStatus();
-  }
+//  void setStatus(String uid) async {
+//    status = await DatabaseService(uid: uid).getRegisterStatus();
+//  }
 
   @override
   void dispose() {

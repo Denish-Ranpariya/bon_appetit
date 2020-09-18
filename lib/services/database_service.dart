@@ -6,7 +6,7 @@ class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
   final CollectionReference restaurantCollection =
-  Firestore.instance.collection('restaurants');
+      Firestore.instance.collection('restaurants');
 
   Future updateUserData(String restaurantName, String restaurantOwnerName,
       String phoneNumber, String restaurantAddress, String city) async {
@@ -21,19 +21,19 @@ class DatabaseService {
     });
   }
 
-  Future<String> getRegisterStatus() async {
+  Future<String> get getRegisterStatus async {
     return await restaurantCollection.document(uid).get().then((value) {
       if (value.exists) {
         return value.data['is_registered'];
       }
-      return 'false';
+      return null;
     });
   }
 
   Future<void> insertCategoryData(String id, String name) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    Firestore.instance.collection(categoryCollectionName);
+        Firestore.instance.collection(categoryCollectionName);
     return await categoryCollection.document(id).setData({
       'category_id': id,
       'category_name': name,
@@ -54,7 +54,7 @@ class DatabaseService {
   Stream<List<Category>> get categories {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    Firestore.instance.collection(categoryCollectionName);
+        Firestore.instance.collection(categoryCollectionName);
     return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
 
@@ -63,7 +63,7 @@ class DatabaseService {
   Future<void> deleteCategory(String documentId) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    Firestore.instance.collection(categoryCollectionName);
+        Firestore.instance.collection(categoryCollectionName);
     await categoryCollection.document(documentId).delete();
   }
 
@@ -71,7 +71,7 @@ class DatabaseService {
       String category, String description) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    Firestore.instance.collection(foodItemCollectionName);
+        Firestore.instance.collection(foodItemCollectionName);
     return await foodItemCollection.document(id).setData({
       'fooditem_id': id,
       'fooditem_name': name,
@@ -85,7 +85,7 @@ class DatabaseService {
   Stream<List<FoodItem>> get foodItems {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    Firestore.instance.collection(foodItemCollectionName);
+        Firestore.instance.collection(foodItemCollectionName);
     return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
   }
 
@@ -106,7 +106,7 @@ class DatabaseService {
   Future<void> deleteFoodItem(String documentId) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    Firestore.instance.collection(foodItemCollectionName);
+        Firestore.instance.collection(foodItemCollectionName);
     await foodItemCollection.document(documentId).delete();
   }
 }
