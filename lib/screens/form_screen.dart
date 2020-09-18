@@ -1,3 +1,4 @@
+import 'package:bon_appetit/screens/wrapper.dart';
 import 'package:bon_appetit/services/auth_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/loading.dart';
@@ -251,11 +252,8 @@ class _FormScreenState extends State<FormScreen> {
                                               phoneNumber,
                                               address,
                                               city);
-                                      await DatabaseService(uid: user.uid)
-                                          .getRegisterStatus;
                                       setState(() {
                                         isLoading = false;
-                                        isRegistered = true;
                                       });
                                     }
                                   },
