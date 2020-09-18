@@ -32,7 +32,7 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
   @override
   Widget build(BuildContext context) {
     final categories =
-        Provider.of<List<Category>>(context, listen: false) ?? [];
+        Provider.of<List<Category>>(context) ?? [];
     return StreamProvider<List<FoodItem>>.value(
       value: DatabaseService(
               uid: Provider.of<FirebaseUser>(context, listen: false).uid)

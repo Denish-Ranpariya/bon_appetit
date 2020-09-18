@@ -156,7 +156,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                             : foodItemCategory,
                         isExpanded: true,
                         hint: Text('Select Category'),
-                        items: widget.categories.map((Category value) {
+                        items: widget.categories.map((value) {
                           return new DropdownMenuItem<String>(
                             value: value.categoryName,
                             child: Text(value.categoryName),

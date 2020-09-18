@@ -24,6 +24,8 @@ class AuthService {
     return _auth.onAuthStateChanged;
   }
 
+
+
   Future<void> logout() async {
     await _googleSignIn.signOut();
     await _auth.signOut();

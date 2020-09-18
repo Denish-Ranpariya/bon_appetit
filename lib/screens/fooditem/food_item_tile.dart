@@ -3,6 +3,7 @@ import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/screens/fooditem/add_food_item.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,7 @@ class FoodItemTile extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontWeight: FontWeight.w400,
-                  fontSize: 15.0,
+                  fontSize: 18.0,
                 ),
               ),
             ),
@@ -87,29 +88,44 @@ class FoodItemTile extends StatelessWidget {
           ],
         ),
         children: [
-          Text(
-            foodItem.foodItemPrice ?? '',
-            style: TextStyle(
-              color: Colors.grey[800],
-              fontWeight: FontWeight.w400,
-              fontSize: 18.0,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+            child: Text(
+              "Price : ₹" +  foodItem.foodItemPrice ?? '',
+              style: TextStyle(
+                color: Colors.grey[800],
+                fontWeight: FontWeight.w400,
+                fontSize: 18.0,
+              ),
             ),
           ),
-          Text(
-            foodItem.foodItemCategory ?? '',
-            style: TextStyle(
-              color: Colors.grey[800],
-              fontWeight: FontWeight.w400,
-              fontSize: 18.0,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+            child: Text(
+              "Category : " +  foodItem.foodItemCategory ?? '',
+              style: TextStyle(
+                color: Colors.grey[800],
+                fontWeight: FontWeight.w400,
+                fontSize: 18.0,
+              ),
             ),
           ),
-          Text(
-            foodItem.foodItemDescription ?? '',
-            style: TextStyle(
-              color: Colors.grey[800],
-              fontWeight: FontWeight.w400,
-              fontSize: 18.0,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+            child: Text(
+              "Description : " +  foodItem.foodItemDescription ?? '',
+              style: TextStyle(
+                color: Colors.grey[800],
+                fontWeight: FontWeight.w400,
+                fontSize: 18.0,
+              ),
             ),
+          ),
+          SizedBox(
+            height: 8.0,
           ),
         ],
       ),

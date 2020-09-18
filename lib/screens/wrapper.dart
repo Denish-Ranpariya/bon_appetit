@@ -52,12 +52,12 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
     } else {
-//      setStatus(user.uid);
-//      if (status != 'true') {
-//        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
-//      } else {
-//        return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
-//      }
+     setStatus(user.uid);
+     // if (status != 'true') {
+     //   return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
+     // } else {
+     //   return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
+     // }
       return StreamProvider<List<Category>>.value(
           value: DatabaseService(uid: user.uid).categories,
           child: FoodItemsScreen());

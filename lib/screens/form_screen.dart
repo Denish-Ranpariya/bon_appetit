@@ -252,7 +252,7 @@ class _FormScreenState extends State<FormScreen> {
                                               address,
                                               city);
                                       await DatabaseService(uid: user.uid)
-                                          .getRegisterStatus();
+                                          .getRegisterStatus;
                                       setState(() {
                                         isLoading = false;
                                         isRegistered = true;
