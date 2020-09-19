@@ -13,6 +13,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'food_item_list.dart';
 
 class FoodItemsScreen extends StatefulWidget {
+  final Function toggleFunction;
+
+  FoodItemsScreen({this.toggleFunction});
+
   @override
   _FoodItemsScreenState createState() => _FoodItemsScreenState();
 }
@@ -183,6 +187,7 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
         ),
         backgroundColor: Colors.white,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.grey[700]),
           backgroundColor: Color(0xFFc9e3db),
           elevation: 0,
           title: Padding(
@@ -193,45 +198,10 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
             ),
           ),
           actions: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  padding: EdgeInsets.all(0.0),
-                  iconSize: 60.0,
-                  icon: QrImage(
-                    data: qrData,
-                  ),
-                  onPressed: () {},
-                ),
-                FlatButton.icon(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  label: Text('logout'),
-                  icon: Icon(
-                    Icons.exit_to_app,
-                    color: Colors.grey[800],
-                  ),
-                  onPressed: () async {
-                    try {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      await AuthService().logout();
-                      if (!_disposed) {
-                        setState(() {
-                          isLoading = false;
-                        });
-                      }
-                    } catch (e) {
-                      print(e.toString());
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
+            FlatButton.icon(
+                onPressed: widget.toggleFunction,
+                icon: Icon(Icons.compare_arrows),
+                label: Text('Categories'))
           ],
         ),
         body: Column(

@@ -1,4 +1,4 @@
-import 'package:bon_appetit/screens/wrapper.dart';
+import 'package:bon_appetit/screens/toggle_wrapper.dart';
 import 'package:bon_appetit/services/auth_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/loading.dart';
@@ -29,8 +29,6 @@ class _FormScreenState extends State<FormScreen> {
 
   bool isRegistered = false;
 
-  String status = '';
-
 //  void setStatus(String uid) async {
 //    status = await DatabaseService(uid: uid).getRegisterStatus();
 //  }
@@ -46,8 +44,8 @@ class _FormScreenState extends State<FormScreen> {
     final user = Provider.of<FirebaseUser>(context);
     return isLoading
         ? Loading()
-        : status == 'true'
-            ? CategoryScreen()
+        : isRegistered
+            ? ToggleWrapper()
             : Scaffold(
                 appBar: AppBar(
                   backgroundColor: Color(0xFFc9e3db),
@@ -252,7 +250,9 @@ class _FormScreenState extends State<FormScreen> {
                                               phoneNumber,
                                               address,
                                               city);
+
                                       setState(() {
+                                        isRegistered = true;
                                         isLoading = false;
                                       });
                                     }

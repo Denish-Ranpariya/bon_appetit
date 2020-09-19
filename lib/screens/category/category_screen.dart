@@ -13,6 +13,9 @@ import 'add_category_screen.dart';
 import 'category_list.dart';
 
 class CategoryScreen extends StatefulWidget {
+  final Function toggleFunction;
+
+  CategoryScreen({this.toggleFunction});
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
 }
@@ -192,21 +195,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     style: TextStyle(color: Colors.grey[800]),
                   ),
                 ),
-//                actions: <Widget>[
-//                  Row(
-//                    crossAxisAlignment: CrossAxisAlignment.start,
-//                    children: [
-//                      IconButton(
-//                        padding: EdgeInsets.all(0.0),
-//                        iconSize: 60.0,
-//                        icon: QrImage(
-//                          data: qrData,
-//                        ),
-//                        onPressed: () {},
-//                      ),
-//                    ],
-//                  ),
-//                ],
+                actions: <Widget>[
+                  FlatButton.icon(
+                      onPressed: widget.toggleFunction,
+                      icon: Icon(Icons.compare_arrows),
+                      label: Text('Food Items'))
+                ],
               ),
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,

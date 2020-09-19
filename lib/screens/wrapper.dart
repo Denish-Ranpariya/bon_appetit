@@ -1,4 +1,4 @@
-import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/screens/toggle_wrapper.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,8 +56,9 @@ class _WrapperState extends State<Wrapper> {
           future: DatabaseService(uid: user.uid).getRegisterStatus,
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
-              return WillPopScope(
-                  onWillPop: onPressedBack, child: CategoryScreen());
+//              return WillPopScope(
+//                  onWillPop: onPressedBack, child: CategoryScreen());
+              return ToggleWrapper();
             } else {
               return WillPopScope(
                   onWillPop: onPressedBack, child: FormScreen());
