@@ -92,7 +92,7 @@ class FoodItemTile extends StatelessWidget {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
             child: Text(
-              "Price : ₹" +  foodItem.foodItemPrice ?? '',
+              "Price : ₹" + foodItem.foodItemPrice ?? '',
               style: TextStyle(
                 color: Colors.grey[800],
                 fontWeight: FontWeight.w400,
@@ -104,19 +104,7 @@ class FoodItemTile extends StatelessWidget {
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
             child: Text(
-              "Category : " +  foodItem.foodItemCategory ?? '',
-              style: TextStyle(
-                color: Colors.grey[800],
-                fontWeight: FontWeight.w400,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-            child: Text(
-              "Description : " +  foodItem.foodItemDescription ?? '',
+              "Description : " + foodItem.foodItemDescription ?? '',
               style: TextStyle(
                 color: Colors.grey[800],
                 fontWeight: FontWeight.w400,

@@ -235,9 +235,6 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 20.0,
-            ),
             Expanded(
               child: FoodItemList(),
             ),

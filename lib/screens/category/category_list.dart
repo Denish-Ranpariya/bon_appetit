@@ -13,6 +13,7 @@ class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     final categories = Provider.of<List<Category>>(context) ?? [];
+    categories.sort((a, b) => a.categoryName.compareTo(b.categoryName));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
