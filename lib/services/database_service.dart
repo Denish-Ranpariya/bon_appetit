@@ -59,7 +59,6 @@ class DatabaseService {
   }
 
   // delete category
-  //todo: also delete food items of particular category
   Future<void> deleteCategory(String documentId) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
@@ -108,5 +107,38 @@ class DatabaseService {
     final CollectionReference foodItemCollection =
         Firestore.instance.collection(foodItemCollectionName);
     await foodItemCollection.document(documentId).delete();
+  }
+
+  //Edit food item category when category name is changed
+  Future<void> editFoodItemCategory(
+      String oldCategoryName, String newCategoryName) async {
+    String foodItemCollectionName = uid + 'food';
+    final CollectionReference foodItemCollection =
+        Firestore.instance.collection(foodItemCollectionName);
+    foodItemCollection
+        .where('fooditem_category', isEqualTo: oldCategoryName)
+        .getDocuments()
+        .then((value) async {
+      value.documents.forEach((element) async {
+        await foodItemCollection
+            .document(element.documentID)
+            .updateData({'fooditem_category': newCategoryName});
+      });
+    });
+  }
+
+  //delete food item category when category name is changed
+  Future<void> deleteFoodItemCategory(String categoryName) async {
+    String foodItemCollectionName = uid + 'food';
+    final CollectionReference foodItemCollection =
+        Firestore.instance.collection(foodItemCollectionName);
+    foodItemCollection
+        .where('fooditem_category', isEqualTo: categoryName)
+        .getDocuments()
+        .then((value) async {
+      value.documents.forEach((element) async {
+        await foodItemCollection.document(element.documentID).delete();
+      });
+    });
   }
 }

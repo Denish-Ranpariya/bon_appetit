@@ -122,6 +122,12 @@ class _AddCategoryState extends State<AddCategory> {
                                     widget.category.categoryId,
                                     categoryName ??
                                         widget.category.categoryName);
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .editFoodItemCategory(
+                                    widget.category.categoryName, categoryName);
                           } else {
                             String id = randomAlphaNumeric(22);
 

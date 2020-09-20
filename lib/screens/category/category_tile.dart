@@ -76,6 +76,10 @@ class CategoryTile extends StatelessWidget {
                           uid: Provider.of<FirebaseUser>(context, listen: false)
                               .uid)
                       .deleteCategory(category.categoryId);
+                  await DatabaseService(
+                          uid: Provider.of<FirebaseUser>(context, listen: false)
+                              .uid)
+                      .deleteFoodItemCategory(category.categoryName);
                 }
               },
             )
