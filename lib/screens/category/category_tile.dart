@@ -15,7 +15,7 @@ class CategoryTile extends StatelessWidget {
       return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Do you really want to delete this item?'),
+          title: Text('Do you really want to delete this category?'),
           actions: [
             FlatButton(
               child: Text('No'),
@@ -71,15 +71,16 @@ class CategoryTile extends StatelessWidget {
               ),
               onPressed: () async {
                 bool result = await showAlertBox();
-                if (result) {
-                  await DatabaseService(
-                          uid: Provider.of<FirebaseUser>(context, listen: false)
-                              .uid)
-                      .deleteCategory(category.categoryId);
+
+                if (result ?? false) {
                   await DatabaseService(
                           uid: Provider.of<FirebaseUser>(context, listen: false)
                               .uid)
                       .deleteFoodItemCategory(category.categoryName);
+                  await DatabaseService(
+                          uid: Provider.of<FirebaseUser>(context, listen: false)
+                              .uid)
+                      .deleteCategory(category.categoryId);
                 }
               },
             )

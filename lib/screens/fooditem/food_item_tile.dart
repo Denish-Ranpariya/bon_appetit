@@ -77,7 +77,7 @@ class FoodItemTile extends StatelessWidget {
               ),
               onPressed: () async {
                 bool result = await showAlertBox();
-                if (result) {
+                if (result ?? false) {
                   await DatabaseService(
                           uid: Provider.of<FirebaseUser>(context, listen: false)
                               .uid)
