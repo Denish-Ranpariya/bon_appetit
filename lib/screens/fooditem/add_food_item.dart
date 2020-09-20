@@ -20,6 +20,33 @@ class _AddFoodItemState extends State<AddFoodItem> {
   String foodItemPrice;
   String foodItemCategory;
   String foodItemDescription;
+  String radioValue; //Initial definition of radio button value
+  String foodItemType;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.isAdded)
+      radioValue = widget.foodItem.foodItemType;
+    else
+      radioValue = 'veg';
+  }
+
+  void radioButtonChanges(String value) {
+    setState(() {
+      radioValue = value;
+      switch (value) {
+        case 'veg':
+          foodItemType = value;
+          break;
+        case 'nonveg':
+          foodItemType = value;
+          break;
+        default:
+          foodItemType = null;
+      }
+    });
+  }
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -211,6 +238,30 @@ class _AddFoodItemState extends State<AddFoodItem> {
                     SizedBox(
                       height: 20,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Radio(
+                          value: 'veg',
+                          groupValue: radioValue,
+                          onChanged: radioButtonChanges,
+                        ),
+                        Text(
+                          "Veg.",
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Radio(
+                          value: 'nonveg',
+                          groupValue: radioValue,
+                          onChanged: radioButtonChanges,
+                        ),
+                        Text(
+                          "Non-Veg.",
+                        ),
+                      ],
+                    ),
                     FlatButton(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
@@ -241,7 +292,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                     foodItemCategory ??
                                         widget.foodItem.foodItemCategory,
                                     foodItemDescription ??
-                                        widget.foodItem.foodItemDescription);
+                                        widget.foodItem.foodItemDescription,
+                                    foodItemType ?? widget.foodItem.foodItemType
+                            );
                           } else {
                             String id = randomAlphaNumeric(22);
                             await DatabaseService(
@@ -253,7 +306,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                     foodItemName,
                                     foodItemPrice,
                                     foodItemCategory,
-                                    foodItemDescription);
+                                    foodItemDescription,
+                              foodItemType ?? 'veg'
+                            );
                           }
 
                           Navigator.pop(context);

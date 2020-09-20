@@ -230,6 +230,33 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
                     ),
                   ),
                   SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 6.0,
+                        backgroundColor: Colors.green,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text('Veg.'),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      CircleAvatar(
+                        radius: 6.0,
+                        backgroundColor: Colors.red,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text('Non Veg.'),
+                    ],
+                  ),
+                  SizedBox(
                     height: 20.0,
                   ),
                 ],

@@ -4,6 +4,7 @@ class FoodItem {
   String foodItemCategory;
   String foodItemPrice;
   String foodItemDescription;
+  String foodItemType;
 
   FoodItem({
     this.foodItemId,
@@ -11,5 +12,6 @@ class FoodItem {
     this.foodItemCategory,
     this.foodItemPrice,
     this.foodItemDescription,
+    this.foodItemType,
   });
 }

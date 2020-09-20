@@ -67,7 +67,7 @@ class DatabaseService {
   }
 
   Future<void> insertFoodItemData(String id, String name, String price,
-      String category, String description) async {
+      String category, String description, String type) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
         Firestore.instance.collection(foodItemCollectionName);
@@ -76,7 +76,8 @@ class DatabaseService {
       'fooditem_name': name,
       'fooditem_price': price,
       'fooditem_category': category,
-      'fooditem_description': description
+      'fooditem_description': description,
+      'fooditem_type': type
     });
   }
 
@@ -97,7 +98,9 @@ class DatabaseService {
           foodItemName: doc.data['fooditem_name'],
           foodItemPrice: doc.data['fooditem_price'],
           foodItemCategory: doc.data['fooditem_category'],
-          foodItemDescription: doc.data['fooditem_description']);
+          foodItemDescription: doc.data['fooditem_description'],
+          foodItemType: doc.data['fooditem_type'],
+      );
     }).toList();
   }
 

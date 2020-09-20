@@ -43,6 +43,13 @@ class FoodItemTile extends StatelessWidget {
       child: ExpansionTile(
         title: Row(
           children: [
+            CircleAvatar(
+              radius: 6.0,
+              backgroundColor: foodItem.foodItemType == 'nonveg'? Colors.red : Colors.green,
+            ),
+            SizedBox(
+              width: 10.0,
+            ),
             Expanded(
               child: Text(
                 foodItem.foodItemName ?? '',
@@ -84,7 +91,7 @@ class FoodItemTile extends StatelessWidget {
                       .deleteFoodItem(foodItem.foodItemId);
                 }
               },
-            )
+            ),
           ],
         ),
         children: [
