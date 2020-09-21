@@ -1,9 +1,8 @@
 import 'package:bon_appetit/models/food_item.dart';
+import 'package:bon_appetit/shared/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/category.dart';
 import '../../models/food_item.dart';
 import 'food_item_tile.dart';
 
@@ -30,14 +29,9 @@ class _FoodItemListState extends State<FoodItemList> {
               Container(
                 margin: EdgeInsets.only(top: 20.0, left: 25),
                 alignment: Alignment.centerLeft,
-                // color: Colors.teal[700],
-                // width: MediaQuery.of(context).size.width,
                 child: Text(
                   foodItems[index].foodItemCategory,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
-                  ),
+                  style: kScreenHeadingTextStyle,
                 ),
               ),
               Divider(

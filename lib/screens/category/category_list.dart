@@ -1,7 +1,6 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'category_tile.dart';
 
 class CategoryList extends StatefulWidget {

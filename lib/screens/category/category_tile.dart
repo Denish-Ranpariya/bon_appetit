@@ -1,9 +1,11 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'add_category_screen.dart';
+import 'package:bon_appetit/shared/constants.dart';
 
 class CategoryTile extends StatelessWidget {
   final Category category;
@@ -14,22 +16,8 @@ class CategoryTile extends StatelessWidget {
     Future<bool> showAlertBox() {
       return showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Do you really want to delete this category?'),
-          actions: [
-            FlatButton(
-              child: Text('No'),
-              onPressed: () {
-                Navigator.pop(context, false);
-              },
-            ),
-            FlatButton(
-              child: Text('Yes'),
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-            ),
-          ],
+        builder: (context) => AlertDialogBox(
+          textMessage: 'Do you really want to delete this category?',
         ),
       );
     }
@@ -39,14 +27,9 @@ class CategoryTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           category.categoryName ?? '',
-          style: TextStyle(
-            color: Colors.grey[800],
-            fontWeight: FontWeight.w400,
-            fontSize: 18.0,
-          ),
+          style: kTileTextStyle,
         ),
         trailing: Wrap(
-          //mainAxisAlignment: MainAxisAlignment.min,
           children: [
             IconButton(
               icon: Icon(

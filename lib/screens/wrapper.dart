@@ -1,10 +1,9 @@
 import 'package:bon_appetit/screens/toggle_wrapper.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'category/category_screen.dart';
-import 'fooditem/food_items_screen.dart';
 import 'form_screen.dart';
 import 'login_screen.dart';
 
@@ -14,31 +13,11 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  String status = '';
-
-//  void setStatus(String uid) async {
-//    status = await DatabaseService(uid: uid).getRegisterStatus();
-//  }
-
   Future<bool> onPressedBack() {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Do you really want to close the app?'),
-        actions: [
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-          ),
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
-        ],
+      builder: (context) => AlertDialogBox(
+        textMessage: 'Do you really want to close the app?',
       ),
     );
   }
@@ -56,24 +35,12 @@ class _WrapperState extends State<Wrapper> {
           future: DatabaseService(uid: user.uid).getRegisterStatus,
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
             if (snapshot.hasData) {
-//              return WillPopScope(
-//                  onWillPop: onPressedBack, child: CategoryScreen());
               return ToggleWrapper();
             } else {
               return WillPopScope(
                   onWillPop: onPressedBack, child: FormScreen());
             }
           });
-//      setStatus(user.uid);
-//      if (status != 'true') {
-//        return WillPopScope(onWillPop: onPressedBack, child: FormScreen());
-//      } else {
-//        return WillPopScope(onWillPop: onPressedBack, child: CategoryScreen());
-//      }
-//      return StreamProvider<List<Category>>.value(
-//          value: DatabaseService(uid: user.uid).categories,
-//          child:
-//              WillPopScope(onWillPop: onPressedBack, child: FoodItemsScreen()));
     }
   }
 }

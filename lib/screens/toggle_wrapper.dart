@@ -1,5 +1,6 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,22 +25,8 @@ class _ToggleWrapperState extends State<ToggleWrapper> {
   Future<bool> onPressedBack() {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Do you really want to close the app?'),
-        actions: [
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              Navigator.pop(context, false);
-            },
-          ),
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
-          ),
-        ],
+      builder: (context) => AlertDialogBox(
+        textMessage: 'Do you really want to close the app?',
       ),
     );
   }
@@ -57,9 +44,11 @@ class _ToggleWrapperState extends State<ToggleWrapper> {
             value: DatabaseService(uid: Provider.of<FirebaseUser>(context).uid)
                 .categories,
             child: WillPopScope(
-                onWillPop: onPressedBack,
-                child: FoodItemsScreen(
-                  toggleFunction: toggleFunction,
-                )));
+              onWillPop: onPressedBack,
+              child: FoodItemsScreen(
+                toggleFunction: toggleFunction,
+              ),
+            ),
+          );
   }
 }

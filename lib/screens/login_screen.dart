@@ -42,9 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(
                     child: Text(
                       'Bon Appetit',
-                      style: GoogleFonts.sriracha(
+                      style: GoogleFonts.patuaOne(
                         fontSize: 40,
-                        color: Colors.amber[500],
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -54,9 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         isLoading = true;
                       });
                       try {
-                        AuthService authService = new AuthService();
                         FirebaseUser firebaseUser =
-                            await authService.signInWithGoogle();
+                            await AuthService().signInWithGoogle();
                         print(firebaseUser.uid);
 
                         if (!_disposed) {
@@ -102,10 +102,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               flex: 3,
                               child: Text(
                                 'Sign in with Google',
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.patuaOne(
                                   fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[600],
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),

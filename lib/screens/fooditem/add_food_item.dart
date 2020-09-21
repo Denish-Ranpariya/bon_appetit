@@ -1,6 +1,9 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/shared/constants.dart';
+import 'package:bon_appetit/widgets/bottom_button.dart';
+import 'package:bon_appetit/widgets/input_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +29,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
   @override
   void initState() {
     super.initState();
-    if(widget.isAdded)
+    if (widget.isAdded)
       radioValue = widget.foodItem.foodItemType;
     else
       radioValue = 'veg';
@@ -56,22 +59,10 @@ class _AddFoodItemState extends State<AddFoodItem> {
       child: Container(
           color: Color(0xff757575),
           child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15.0),
-                topLeft: Radius.circular(15.0),
-              ),
-            ),
+            decoration: kBottomSheetOuterBoxDecoration,
             child: Container(
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30.0),
-                  topLeft: Radius.circular(30.0),
-                ),
-              ),
+              decoration: kBottomSheetInnerBoxDecoration,
               child: Padding(
                 padding: EdgeInsets.all(30.0),
                 child: Column(
@@ -81,85 +72,36 @@ class _AddFoodItemState extends State<AddFoodItem> {
                     ),
                     Text(
                       widget.isAdded ? 'Edit Food Item' : 'Add Food Item',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30.0,
-                      ),
+                      style: kScreenHeadingTextStyle,
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
-                    TextFormField(
+                    InputTextFormField(
+                      autoFocus: true,
                       initialValue:
                           widget.isAdded ? widget.foodItem.foodItemName : null,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter the name of food item';
-                        }
-                        return null;
-                      },
-                      autofocus: true,
                       onChanged: (newText) {
                         setState(() {
                           foodItemName = newText;
                         });
                       },
-                      decoration: InputDecoration(
-                        hintText: 'Name',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 1.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                      ),
+                      hintText: 'Name',
+                      validatorText: 'Please enter the name of food item',
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
-                    TextFormField(
+                    InputTextFormField(
                       initialValue:
                           widget.isAdded ? widget.foodItem.foodItemPrice : null,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter the price of food item';
-                        }
-                        return null;
-                      },
-                      autofocus: true,
                       onChanged: (newText) {
                         setState(() {
                           foodItemPrice = newText;
                         });
                       },
-                      decoration: InputDecoration(
-                        hintText: 'Price',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 1.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                      ),
+                      hintText: 'Price',
+                      validatorText: 'Please enter the price of food item',
                     ),
                     SizedBox(
                       height: 20,
@@ -168,7 +110,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                       padding:
                           EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.0),
+                        border: Border.all(width: 0.5),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: DropdownButtonFormField<String>(
@@ -199,41 +141,19 @@ class _AddFoodItemState extends State<AddFoodItem> {
                     SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
+                    InputTextFormField(
+                      maxLine: 3,
                       initialValue: widget.isAdded
                           ? widget.foodItem.foodItemDescription
                           : null,
-                      maxLines: 3,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter the description of food item';
-                        }
-                        return null;
-                      },
-                      autofocus: true,
                       onChanged: (newText) {
                         setState(() {
                           foodItemDescription = newText;
                         });
                       },
-                      decoration: InputDecoration(
-                        hintText: 'Description',
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 1.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.grey[600], width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                      ),
+                      hintText: 'Description',
+                      validatorText:
+                          'Please enter the description of food item',
                     ),
                     SizedBox(
                       height: 20,
@@ -262,20 +182,8 @@ class _AddFoodItemState extends State<AddFoodItem> {
                         ),
                       ],
                     ),
-                    FlatButton(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
-                      child: Text(
-                        widget.isAdded ? 'Edit' : 'Add',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      color: Colors.grey[600],
+                    BottomButton(
+                      buttonText: widget.isAdded ? 'Edit' : 'Add',
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           if (widget.isAdded) {
@@ -293,8 +201,8 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                         widget.foodItem.foodItemCategory,
                                     foodItemDescription ??
                                         widget.foodItem.foodItemDescription,
-                                    foodItemType ?? widget.foodItem.foodItemType
-                            );
+                                    foodItemType ??
+                                        widget.foodItem.foodItemType);
                           } else {
                             String id = randomAlphaNumeric(22);
                             await DatabaseService(
@@ -307,8 +215,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                     foodItemPrice,
                                     foodItemCategory,
                                     foodItemDescription,
-                              foodItemType ?? 'veg'
-                            );
+                                    foodItemType ?? 'veg');
                           }
 
                           Navigator.pop(context);
