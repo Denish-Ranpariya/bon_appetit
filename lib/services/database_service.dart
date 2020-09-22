@@ -8,6 +8,7 @@ class DatabaseService {
   final CollectionReference restaurantCollection =
       Firestore.instance.collection('restaurants');
 
+  //insert the data of restaurant
   Future updateUserData(String restaurantName, String restaurantOwnerName,
       String phoneNumber, String restaurantAddress, String city) async {
     return await restaurantCollection.document(uid).setData({
@@ -17,10 +18,10 @@ class DatabaseService {
       'restaurant_address': restaurantAddress,
       'city': city,
       'is_registered': 'true',
-      //'restaurant_category': uid.toString() + 'category'
     });
   }
 
+  // to get the status of restaurant registered or not
   Future<String> get getRegisterStatus async {
     return await restaurantCollection.document(uid).get().then((value) {
       if (value.exists) {
@@ -30,6 +31,7 @@ class DatabaseService {
     });
   }
 
+  // to insert and update the category info.
   Future<void> insertCategoryData(String id, String name) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
@@ -40,10 +42,9 @@ class DatabaseService {
     });
   }
 
-  //return list of category
+  //mapping of data from firestore to category modal
   List<Category> _categoryListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
-      //print(doc.data);
       return Category(
           categoryId: doc.data['category_id'],
           categoryName: doc.data['category_name']);
@@ -66,6 +67,7 @@ class DatabaseService {
     await categoryCollection.document(documentId).delete();
   }
 
+  // to insert or update the data of food item to firestore
   Future<void> insertFoodItemData(String id, String name, String price,
       String category, String description, String type) async {
     String foodItemCollectionName = uid + 'food';
@@ -89,17 +91,16 @@ class DatabaseService {
     return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
   }
 
-  //mapping of food items
+  //to get the data form firestore to fooditem model by mapping
   List<FoodItem> _foodItemsListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
-      //print(doc.data);
       return FoodItem(
-          foodItemId: doc.data['fooditem_id'],
-          foodItemName: doc.data['fooditem_name'],
-          foodItemPrice: doc.data['fooditem_price'],
-          foodItemCategory: doc.data['fooditem_category'],
-          foodItemDescription: doc.data['fooditem_description'],
-          foodItemType: doc.data['fooditem_type'],
+        foodItemId: doc.data['fooditem_id'],
+        foodItemName: doc.data['fooditem_name'],
+        foodItemPrice: doc.data['fooditem_price'],
+        foodItemCategory: doc.data['fooditem_category'],
+        foodItemDescription: doc.data['fooditem_description'],
+        foodItemType: doc.data['fooditem_type'],
       );
     }).toList();
   }
@@ -112,7 +113,7 @@ class DatabaseService {
     await foodItemCollection.document(documentId).delete();
   }
 
-  //Edit food item category when category name is changed
+  //Edit food item category in fooditem when category name is changed
   Future<void> editFoodItemCategory(
       String oldCategoryName, String newCategoryName) async {
     String foodItemCollectionName = uid + 'food';
@@ -130,7 +131,7 @@ class DatabaseService {
     });
   }
 
-  //delete food item category when category name is changed
+  //delete all the fooditem when food item category deleted
   Future<void> deleteFoodItemCategory(String categoryName) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =

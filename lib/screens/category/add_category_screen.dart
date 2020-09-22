@@ -1,6 +1,7 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
+import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/bottom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,6 +85,7 @@ class _AddCategoryState extends State<AddCategory> {
                                       .uid)
                               .insertCategoryData(widget.category.categoryId,
                                   categoryName ?? widget.category.categoryName);
+                          ToastClass.buildShowToast('Changes saved');
                         } else {
                           String id = randomAlphaNumeric(22);
 
@@ -92,6 +94,8 @@ class _AddCategoryState extends State<AddCategory> {
                                           listen: false)
                                       .uid)
                               .insertCategoryData(id, categoryName);
+                          ToastClass.buildShowToast(
+                              'Category added successfully');
                         }
 
                         Navigator.pop(context);

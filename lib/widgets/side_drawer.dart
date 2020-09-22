@@ -1,3 +1,4 @@
+import 'package:bon_appetit/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,10 +22,7 @@ class SideDrawer extends StatelessWidget {
               children: [
                 Text(
                   'Bon Appetit',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[700]),
+                  style: kScreenHeadingTextStyle,
                 ),
                 SizedBox(
                   height: 30,
@@ -80,18 +78,6 @@ class SideDrawer extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
                 title: Text('About Us'),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Center(
-              child: ListTile(
-                leading: Icon(
-                  Icons.contact_mail,
-                  color: Colors.grey[700],
-                ),
-                title: Text('Contact Us'),
               ),
             ),
           ),

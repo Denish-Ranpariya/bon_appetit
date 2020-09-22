@@ -1,5 +1,6 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/services/database_service.dart';
+import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class CategoryTile extends StatelessWidget {
       return showDialog(
         context: context,
         builder: (context) => AlertDialogBox(
-          textMessage: 'Do you really want to delete this category?',
+          textMessage:
+              'Do you really want to delete this category? \n\nNote: If you delete the category, all the food items in the category will also be deleted.',
         ),
       );
     }
@@ -64,6 +66,7 @@ class CategoryTile extends StatelessWidget {
                           uid: Provider.of<FirebaseUser>(context, listen: false)
                               .uid)
                       .deleteCategory(category.categoryId);
+                  ToastClass.buildShowToast('Category deleted');
                 }
               },
             )

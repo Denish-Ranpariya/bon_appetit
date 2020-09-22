@@ -1,3 +1,4 @@
+import 'package:bon_appetit/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class BottomButton extends StatelessWidget {
@@ -17,11 +18,7 @@ class BottomButton extends StatelessWidget {
         color: Color(0xff5ab190),
         child: Text(
           buttonText,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-          ),
+          style: kButtonTextStyle,
         ),
         onPressed: onPressed,
       ),

@@ -2,6 +2,7 @@ import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
+import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/bottom_button.dart';
 import 'package:bon_appetit/widgets/input_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -203,6 +204,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                         widget.foodItem.foodItemDescription,
                                     foodItemType ??
                                         widget.foodItem.foodItemType);
+                            ToastClass.buildShowToast('Changes saved');
                           } else {
                             String id = randomAlphaNumeric(22);
                             await DatabaseService(
@@ -216,6 +218,8 @@ class _AddFoodItemState extends State<AddFoodItem> {
                                     foodItemCategory,
                                     foodItemDescription,
                                     foodItemType ?? 'veg');
+                            ToastClass.buildShowToast(
+                                'Item added successfully');
                           }
 
                           Navigator.pop(context);

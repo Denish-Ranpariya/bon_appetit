@@ -3,6 +3,7 @@ import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/screens/fooditem/add_food_item.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
+import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,6 +75,7 @@ class FoodItemTile extends StatelessWidget {
                           uid: Provider.of<FirebaseUser>(context, listen: false)
                               .uid)
                       .deleteFoodItem(foodItem.foodItemId);
+                  ToastClass.buildShowToast('Item deleted');
                 }
               },
             ),

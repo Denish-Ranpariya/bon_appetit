@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+const kButtonTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontSize: 18.0,
+);
+
 const kUpperBoxDecoration = BoxDecoration(
   color: Color(0xFFc9e3db),
   borderRadius: BorderRadius.only(

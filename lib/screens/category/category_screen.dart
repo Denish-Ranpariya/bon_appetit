@@ -3,6 +3,7 @@ import 'package:bon_appetit/services/auth_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/loading.dart';
+import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/alert_dialog_box.dart';
 import 'package:bon_appetit/widgets/image_dialog.dart';
 import 'package:bon_appetit/widgets/side_drawer.dart';
@@ -67,6 +68,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             isLoading = false;
                           });
                         }
+                        ToastClass.buildShowToast('Logged out');
                       } catch (e) {
                         print(e.toString());
                         setState(() {
