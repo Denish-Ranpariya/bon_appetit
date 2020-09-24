@@ -1,4 +1,5 @@
 import 'package:bon_appetit/services/auth_service.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/shared/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,24 +53,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      try {
-                        FirebaseUser firebaseUser =
-                            await AuthService().signInWithGoogle();
-                        print(firebaseUser.uid);
+                      bool result =
+                          await ConnectivityService.getConnectivityStatus();
+                      if (result) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        try {
+                          FirebaseUser firebaseUser =
+                              await AuthService().signInWithGoogle();
+                          print(firebaseUser.uid);
 
-                        if (!_disposed) {
+                          if (!_disposed) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                          ToastClass.buildShowToast('Logged in');
+                        } catch (e) {
                           setState(() {
                             isLoading = false;
                           });
                         }
-                        ToastClass.buildShowToast('Logged in');
-                      } catch (e) {
-                        setState(() {
-                          isLoading = false;
-                        });
+                      } else {
+                        ToastClass.buildShowToast('No internet connection');
                       }
                     },
                     child: Padding(

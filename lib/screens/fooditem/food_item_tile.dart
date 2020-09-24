@@ -1,6 +1,7 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/screens/fooditem/add_food_item.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/toast.dart';
@@ -69,13 +70,20 @@ class FoodItemTile extends StatelessWidget {
                 color: Colors.teal[400],
               ),
               onPressed: () async {
+                bool conResult =
+                    await ConnectivityService.getConnectivityStatus();
                 bool result = await showAlertBox();
-                if (result ?? false) {
-                  await DatabaseService(
-                          uid: Provider.of<FirebaseUser>(context, listen: false)
-                              .uid)
-                      .deleteFoodItem(foodItem.foodItemId);
-                  ToastClass.buildShowToast('Item deleted');
+                if (conResult) {
+                  if (result ?? false) {
+                    await DatabaseService(
+                            uid: Provider.of<FirebaseUser>(context,
+                                    listen: false)
+                                .uid)
+                        .deleteFoodItem(foodItem.foodItemId);
+                    ToastClass.buildShowToast('Item deleted');
+                  }
+                } else {
+                  ToastClass.buildShowToast('No internet connection');
                 }
               },
             ),

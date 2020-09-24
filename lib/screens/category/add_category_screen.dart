@@ -1,4 +1,5 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/toast.dart';
@@ -70,32 +71,41 @@ class _AddCategoryState extends State<AddCategory> {
                   BottomButton(
                     buttonText: widget.isAdded ? 'Edit' : 'Add',
                     onPressed: () async {
+                      bool result =
+                          await ConnectivityService.getConnectivityStatus();
+
                       if (_formKey.currentState.validate()) {
                         print(categoryName);
-                        if (widget.isAdded) {
-                          await DatabaseService(
-                                  uid: Provider.of<FirebaseUser>(context,
-                                          listen: false)
-                                      .uid)
-                              .editFoodItemCategory(
-                                  widget.category.categoryName, categoryName);
-                          await DatabaseService(
-                                  uid: Provider.of<FirebaseUser>(context,
-                                          listen: false)
-                                      .uid)
-                              .insertCategoryData(widget.category.categoryId,
-                                  categoryName ?? widget.category.categoryName);
-                          ToastClass.buildShowToast('Changes saved');
-                        } else {
-                          String id = randomAlphaNumeric(22);
+                        if (result) {
+                          if (widget.isAdded) {
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .editFoodItemCategory(
+                                    widget.category.categoryName, categoryName);
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertCategoryData(
+                                    widget.category.categoryId,
+                                    categoryName ??
+                                        widget.category.categoryName);
+                            ToastClass.buildShowToast('Changes saved');
+                          } else {
+                            String id = randomAlphaNumeric(22);
 
-                          await DatabaseService(
-                                  uid: Provider.of<FirebaseUser>(context,
-                                          listen: false)
-                                      .uid)
-                              .insertCategoryData(id, categoryName);
-                          ToastClass.buildShowToast(
-                              'Category added successfully');
+                            await DatabaseService(
+                                    uid: Provider.of<FirebaseUser>(context,
+                                            listen: false)
+                                        .uid)
+                                .insertCategoryData(id, categoryName);
+                            ToastClass.buildShowToast(
+                                'Category added successfully');
+                          }
+                        } else {
+                          ToastClass.buildShowToast('No internet connection');
                         }
 
                         Navigator.pop(context);

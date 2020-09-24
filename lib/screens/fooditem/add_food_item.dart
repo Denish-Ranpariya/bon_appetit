@@ -1,5 +1,6 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/toast.dart';
@@ -186,43 +187,49 @@ class _AddFoodItemState extends State<AddFoodItem> {
                     BottomButton(
                       buttonText: widget.isAdded ? 'Edit' : 'Add',
                       onPressed: () async {
+                        bool result =
+                            await ConnectivityService.getConnectivityStatus();
                         if (_formKey.currentState.validate()) {
-                          if (widget.isAdded) {
-                            await DatabaseService(
-                                    uid: Provider.of<FirebaseUser>(context,
-                                            listen: false)
-                                        .uid)
-                                .insertFoodItemData(
-                                    widget.foodItem.foodItemId,
-                                    foodItemName ??
-                                        widget.foodItem.foodItemName,
-                                    foodItemPrice ??
-                                        widget.foodItem.foodItemPrice,
-                                    foodItemCategory ??
-                                        widget.foodItem.foodItemCategory,
-                                    foodItemDescription ??
-                                        widget.foodItem.foodItemDescription,
-                                    foodItemType ??
-                                        widget.foodItem.foodItemType);
-                            ToastClass.buildShowToast('Changes saved');
-                          } else {
-                            String id = randomAlphaNumeric(22);
-                            await DatabaseService(
-                                    uid: Provider.of<FirebaseUser>(context,
-                                            listen: false)
-                                        .uid)
-                                .insertFoodItemData(
-                                    id,
-                                    foodItemName,
-                                    foodItemPrice,
-                                    foodItemCategory,
-                                    foodItemDescription,
-                                    foodItemType ?? 'veg');
-                            ToastClass.buildShowToast(
-                                'Item added successfully');
-                          }
+                          if (result) {
+                            if (widget.isAdded) {
+                              await DatabaseService(
+                                      uid: Provider.of<FirebaseUser>(context,
+                                              listen: false)
+                                          .uid)
+                                  .insertFoodItemData(
+                                      widget.foodItem.foodItemId,
+                                      foodItemName ??
+                                          widget.foodItem.foodItemName,
+                                      foodItemPrice ??
+                                          widget.foodItem.foodItemPrice,
+                                      foodItemCategory ??
+                                          widget.foodItem.foodItemCategory,
+                                      foodItemDescription ??
+                                          widget.foodItem.foodItemDescription,
+                                      foodItemType ??
+                                          widget.foodItem.foodItemType);
+                              ToastClass.buildShowToast('Changes saved');
+                            } else {
+                              String id = randomAlphaNumeric(22);
+                              await DatabaseService(
+                                      uid: Provider.of<FirebaseUser>(context,
+                                              listen: false)
+                                          .uid)
+                                  .insertFoodItemData(
+                                      id,
+                                      foodItemName,
+                                      foodItemPrice,
+                                      foodItemCategory,
+                                      foodItemDescription,
+                                      foodItemType ?? 'veg');
+                              ToastClass.buildShowToast(
+                                  'Item added successfully');
+                            }
 
-                          Navigator.pop(context);
+                            Navigator.pop(context);
+                          } else {
+                            ToastClass.buildShowToast('No internet connection');
+                          }
                         }
                       },
                     ),

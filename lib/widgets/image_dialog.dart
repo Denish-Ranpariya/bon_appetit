@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +7,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bon_appetit/widgets/bottom_button.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ImageDialog extends StatefulWidget {
   final String qrData;
@@ -55,14 +54,19 @@ class _ImageDialogState extends State<ImageDialog> {
               ),
             ),
             BottomButton(
-              onPressed: () {
-                screenshotController.capture().then((File image) async {
-                  await ImageGallerySaver.saveImage(image.readAsBytesSync());
-                  ToastClass.buildShowToast("File Saved to Gallery");
-                }).catchError((onError) {
-                  print(onError);
-                });
-                Navigator.pop(context);
+              onPressed: () async {
+                bool result = await Permission.storage.isGranted;
+                if (result) {
+                  screenshotController.capture().then((File image) async {
+                    await ImageGallerySaver.saveImage(image.readAsBytesSync());
+                    ToastClass.buildShowToast("File Saved to Gallery");
+                  }).catchError((onError) {
+                    print(onError);
+                  });
+                  Navigator.pop(context);
+                } else {
+                  await Permission.storage.request();
+                }
               },
               buttonText: 'Download',
             ),

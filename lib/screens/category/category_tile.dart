@@ -1,4 +1,5 @@
 import 'package:bon_appetit/models/category.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/toast.dart';
 import 'package:bon_appetit/widgets/alert_dialog_box.dart';
@@ -55,18 +56,25 @@ class CategoryTile extends StatelessWidget {
                 color: Colors.teal[400],
               ),
               onPressed: () async {
+                bool conResult =
+                    await ConnectivityService.getConnectivityStatus();
                 bool result = await showAlertBox();
-
-                if (result ?? false) {
-                  await DatabaseService(
-                          uid: Provider.of<FirebaseUser>(context, listen: false)
-                              .uid)
-                      .deleteFoodItemCategory(category.categoryName);
-                  await DatabaseService(
-                          uid: Provider.of<FirebaseUser>(context, listen: false)
-                              .uid)
-                      .deleteCategory(category.categoryId);
-                  ToastClass.buildShowToast('Category deleted');
+                if (conResult) {
+                  if (result ?? false) {
+                    await DatabaseService(
+                            uid: Provider.of<FirebaseUser>(context,
+                                    listen: false)
+                                .uid)
+                        .deleteFoodItemCategory(category.categoryName);
+                    await DatabaseService(
+                            uid: Provider.of<FirebaseUser>(context,
+                                    listen: false)
+                                .uid)
+                        .deleteCategory(category.categoryId);
+                    ToastClass.buildShowToast('Category deleted');
+                  }
+                } else {
+                  ToastClass.buildShowToast('No internet connection');
                 }
               },
             )

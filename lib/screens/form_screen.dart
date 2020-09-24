@@ -1,5 +1,6 @@
 import 'package:bon_appetit/screens/toggle_wrapper.dart';
 import 'package:bon_appetit/services/auth_service.dart';
+import 'package:bon_appetit/services/connectivity_service.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:bon_appetit/shared/loading.dart';
@@ -219,19 +220,30 @@ class _FormScreenState extends State<FormScreen> {
                               buttonText: 'Register Your Restaurant',
                               onPressed: () async {
                                 if (formKey.currentState.validate()) {
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  await DatabaseService(uid: user.uid)
-                                      .updateUserData(restaurantName, ownerName,
-                                          phoneNumber, address, city);
+                                  bool result = await ConnectivityService
+                                      .getConnectivityStatus();
+                                  if (result) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    await DatabaseService(uid: user.uid)
+                                        .updateUserData(
+                                            restaurantName,
+                                            ownerName,
+                                            phoneNumber,
+                                            address,
+                                            city);
 
-                                  setState(() {
-                                    isRegistered = true;
-                                    isLoading = false;
-                                  });
-                                  ToastClass.buildShowToast(
-                                      'Registration Successful');
+                                    setState(() {
+                                      isRegistered = true;
+                                      isLoading = false;
+                                    });
+                                    ToastClass.buildShowToast(
+                                        'Registration Successful');
+                                  } else {
+                                    ToastClass.buildShowToast(
+                                        'No internet connection');
+                                  }
                                 }
                               },
                             ),

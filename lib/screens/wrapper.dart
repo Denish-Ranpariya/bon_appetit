@@ -28,9 +28,7 @@ class _WrapperState extends State<Wrapper> {
     final user = Provider.of<FirebaseUser>(context);
     //return either home or authenticate widget
 
-    if (user == null) {
-      return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
-    } else {
+    if (user != null) {
       return FutureBuilder<String>(
           future: DatabaseService(uid: user.uid).getRegisterStatus,
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -41,6 +39,8 @@ class _WrapperState extends State<Wrapper> {
                   onWillPop: onPressedBack, child: FormScreen());
             }
           });
+    } else {
+      return WillPopScope(onWillPop: onPressedBack, child: LoginScreen());
     }
   }
 }
