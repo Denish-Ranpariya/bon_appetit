@@ -40,7 +40,9 @@ dependencies:
   random_string: ^2.1.0
   font_awesome_flutter: ^8.8.1
   fluttertoast: ^7.1.1
-  
+  splashscreen: ^1.2.0
+  screenshot: ^0.2.0
+  image_gallery_saver: ^1.5.0
 
 dev_dependencies:
   flutter_test:

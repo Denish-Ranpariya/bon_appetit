@@ -145,4 +145,14 @@ class DatabaseService {
       });
     });
   }
+
+  //get the name of restaurant
+  Future<String> get getRestaurantName async {
+    return await restaurantCollection.document(uid).get().then((value) {
+      if (value.exists) {
+        return value.data['restaurant_name'];
+      }
+      return null;
+    });
+  }
 }
