@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String hintText,image;
+  final String hintText;
+  final IconData icon;
   final int maxLine;
   final Function onChange;
   final Function validator;
-  CustomTextField({this.hintText,this.image,this.maxLine,this.onChange,this.validator});
+  CustomTextField(
+      {this.hintText, this.icon, this.maxLine, this.onChange, this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +16,16 @@ class CustomTextField extends StatelessWidget {
       child: Container(
         child: Card(
           child: ListTile(
-            leading: SvgPicture.asset("images/$image",color: Colors.teal[400]),
+            leading: Icon(
+              icon,
+              color: Colors.teal[400],
+            ),
             title: TextFormField(
               validator: validator,
               cursorColor: Colors.teal[400],
               maxLines: maxLine,
               decoration: InputDecoration(
-                hintStyle: TextStyle(color: Colors.grey,fontSize: 18.0),
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 18.0),
                 hintText: hintText,
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,

@@ -5,7 +5,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final String iconTitle;
   final Function onPressed;
 
-  TopBar({this.iconData, this.iconTitle, this.onPressed});
+  TopBar({this.iconData, this.iconTitle = '', this.onPressed});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);

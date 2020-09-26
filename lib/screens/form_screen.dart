@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
@@ -129,7 +130,7 @@ class _FormScreenState extends State<FormScreen> {
                                 }
                                 return null;
                               },
-                              image: "storefront.svg",
+                              icon: FontAwesomeIcons.store,
                               hintText: "Restaurant Name",
                               maxLine: 1,
                               onChange: (value) {
@@ -148,7 +149,7 @@ class _FormScreenState extends State<FormScreen> {
                                 }
                                 return null;
                               },
-                              image: "person.svg",
+                              icon: Icons.person,
                               hintText: "Owner Name",
                               maxLine: 1,
                               onChange: (value) {
@@ -169,7 +170,7 @@ class _FormScreenState extends State<FormScreen> {
                                 }
                                 return null;
                               },
-                              image: "phone.svg",
+                              icon: Icons.phone,
                               hintText: "Phone Number",
                               maxLine: 1,
                               onChange: (value) {
@@ -188,7 +189,7 @@ class _FormScreenState extends State<FormScreen> {
                                 }
                                 return null;
                               },
-                              image: "apartment.svg",
+                              icon: FontAwesomeIcons.building,
                               hintText: "Restaurant Address",
                               onChange: (value) {
                                 setState(() {
@@ -207,7 +208,7 @@ class _FormScreenState extends State<FormScreen> {
                                 }
                                 return null;
                               },
-                              image: "business.svg",
+                              icon: Icons.location_city,
                               hintText: "City",
                               maxLine: 1,
                               onChange: (value) {

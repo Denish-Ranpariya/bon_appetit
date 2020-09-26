@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:bon_appetit/screens/about_us_screen.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,16 +31,11 @@ class SideDrawer extends StatelessWidget {
                 SizedBox(
                   height: 30,
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 45),
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            Provider.of<FirebaseUser>(context).photoUrl),
-                        fit: BoxFit.fill),
-                  ),
+                CircleAvatar(
+                  radius: 60.0,
+                  backgroundImage:
+                      NetworkImage(Provider.of<FirebaseUser>(context).photoUrl),
+                  backgroundColor: Colors.transparent,
                 ),
                 SizedBox(
                   height: 20,
@@ -71,7 +69,12 @@ class SideDrawer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUsScreen()),
+              );
+            },
             child: Center(
               child: ListTile(
                 leading: Icon(
