@@ -35,7 +35,7 @@ class _ImageDialogState extends State<ImageDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   QrImage(
-                    data: widget.qrData,
+                    data: widget.qrData + 'food',
                     backgroundColor: Colors.white,
                   ),
                   Container(

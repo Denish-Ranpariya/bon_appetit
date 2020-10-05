@@ -117,9 +117,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     decoration: kUpperBoxDecoration,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 25.0,
-                        ),
                         Text(
                           "Food Category",
                           style: kScreenHeadingTextStyle,

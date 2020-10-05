@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bon_appetit/screens/about_us_screen.dart';
+import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +42,24 @@ class SideDrawer extends StatelessWidget {
                   height: 20,
                 ),
                 Center(
-                  child: Text(
-                    Provider.of<FirebaseUser>(context).displayName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  child: StreamBuilder(
+                    stream: DatabaseService(
+                            uid: Provider.of<FirebaseUser>(context).uid)
+                        .restaurantData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data.restaurantName,
+                          style: kScreenHeadingTextStyle,
+                        );
+                      } else {
+                        return Text('');
+                      }
+                    },
                   ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
               ],
             ),

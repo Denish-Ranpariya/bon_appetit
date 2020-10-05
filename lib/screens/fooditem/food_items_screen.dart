@@ -117,9 +117,6 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
               decoration: kUpperBoxDecoration,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 25.0,
-                  ),
                   Text(
                     "Food Items",
                     style: kScreenHeadingTextStyle,

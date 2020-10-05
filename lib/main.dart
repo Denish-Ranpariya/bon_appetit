@@ -41,7 +41,7 @@ class _MySplashState extends State<MySplash> {
     ]);
     return SplashScreen(
       photoSize: 100,
-      seconds: 5,
+      seconds: 3,
       title: Text(
         'Bon Appetit',
         style: GoogleFonts.patuaOne(

@@ -1,5 +1,6 @@
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
+import 'package:bon_appetit/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -154,5 +155,19 @@ class DatabaseService {
       }
       return null;
     });
+  }
+
+  Stream<Restaurant> get restaurantData {
+    return Firestore.instance
+        .collection('restaurants')
+        .document(uid)
+        .snapshots()
+        .map(_restaurantDataFromSnapshot);
+  }
+
+  Restaurant _restaurantDataFromSnapshot(DocumentSnapshot snapshot) {
+    return Restaurant(
+        restaurantName: snapshot.data['restaurant_name'],
+        restaurantPhoneNumber: snapshot.data['phone_number']);
   }
 }
