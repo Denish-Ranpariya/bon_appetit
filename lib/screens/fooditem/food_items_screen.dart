@@ -45,11 +45,11 @@ class _FoodItemsScreenState extends State<FoodItemsScreen> {
       );
     }
 
-    String qrData = Provider.of<FirebaseUser>(context).uid.toString();
+    String qrData = FirebaseAuth.instance.currentUser.uid.toString();
     final categories = Provider.of<List<Category>>(context) ?? [];
     return StreamProvider<List<FoodItem>>.value(
       value: DatabaseService(
-              uid: Provider.of<FirebaseUser>(context, listen: false).uid)
+              uid: FirebaseAuth.instance.currentUser.uid)
           .foodItems,
       child: Scaffold(
         drawer: Container(

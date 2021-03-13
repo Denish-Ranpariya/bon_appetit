@@ -41,7 +41,7 @@ class _ToggleWrapperState extends State<ToggleWrapper> {
             ),
           )
         : StreamProvider<List<Category>>.value(
-            value: DatabaseService(uid: Provider.of<FirebaseUser>(context).uid)
+            value: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
                 .categories,
             child: WillPopScope(
               onWillPop: onPressedBack,

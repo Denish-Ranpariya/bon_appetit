@@ -5,25 +5,32 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
 
-  Future<FirebaseUser> signInWithGoogle() async {
-    final GoogleSignInAccount googleSignInAccount =
-        await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+  Future<User> signInWithGoogle() async {
+    // final GoogleSignInAccount googleSignInAccount =
+    //     await _googleSignIn.signIn();
+    // final GoogleSignInAuthentication googleSignInAuthentication =
+    //     await googleSignInAccount.authentication;
+    //
+    // final AuthCredential credential = GoogleAuthProvider.credential(
+    //     idToken: googleSignInAuthentication.idToken,
+    //     accessToken: googleSignInAuthentication.accessToken);
+    print('signin');
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken);
+    print('authenticate');
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    final AuthResult result = await _auth.signInWithCredential(credential);
+    print('credentials');
+    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+
+    final result = await _auth.signInWithCredential(credential);
 
     return result.user;
   }
-
-  Stream<FirebaseUser> get user {
-    return _auth.onAuthStateChanged;
-  }
-
 
 
   Future<void> logout() async {

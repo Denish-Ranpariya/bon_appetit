@@ -21,7 +21,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.grey[800]),
       ),
       actions: <Widget>[
-        FlatButton.icon(
+        TextButton.icon(
           label: Text(iconTitle),
           icon: Icon(
             iconData,

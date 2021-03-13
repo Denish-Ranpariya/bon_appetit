@@ -54,7 +54,7 @@ class ProfileTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(
                   Icons.mail,
                   color: Color(0xFFd93025),
@@ -64,7 +64,7 @@ class ProfileTile extends StatelessWidget {
                 },
                 label: Text(''),
               ),
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(
                   FontAwesomeIcons.github,
                   color: Color(0xFF24292e),
@@ -74,7 +74,7 @@ class ProfileTile extends StatelessWidget {
                 },
                 label: Text(''),
               ),
-              FlatButton.icon(
+              TextButton.icon(
                 icon: Icon(
                   FontAwesomeIcons.linkedin,
                   color: Color(0xFF0077b5),

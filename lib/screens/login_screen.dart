@@ -60,8 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading = true;
                         });
                         try {
-                          FirebaseUser firebaseUser =
+                          print('Called');
+                          User firebaseUser =
                               await AuthService().signInWithGoogle();
+                          print('Return');
                           print(firebaseUser.uid);
 
                           if (!_disposed) {

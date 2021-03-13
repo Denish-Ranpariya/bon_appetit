@@ -14,7 +14,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -51,7 +50,7 @@ class _FormScreenState extends State<FormScreen> {
       );
     }
 
-    final user = Provider.of<FirebaseUser>(context);
+    final user = FirebaseAuth.instance.currentUser.uid;
     return isLoading
         ? Loading()
         : isRegistered
@@ -227,7 +226,7 @@ class _FormScreenState extends State<FormScreen> {
                                     setState(() {
                                       isLoading = true;
                                     });
-                                    await DatabaseService(uid: user.uid)
+                                    await DatabaseService(uid: user)
                                         .updateUserData(
                                             restaurantName,
                                             ownerName,

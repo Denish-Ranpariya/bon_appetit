@@ -36,7 +36,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String qrData = Provider.of<FirebaseUser>(context).uid.toString();
+    String qrData = FirebaseAuth.instance.currentUser.uid.toString();
     Future<bool> showAlertBox() {
       return showDialog(
         context: context,
@@ -49,7 +49,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return isLoading
         ? Loading()
         : StreamProvider<List<Category>>.value(
-            value: DatabaseService(uid: Provider.of<FirebaseUser>(context).uid)
+            value: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
                 .categories,
             child: Scaffold(
               drawer: Container(

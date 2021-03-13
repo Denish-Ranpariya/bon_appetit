@@ -7,7 +7,6 @@ import 'package:bon_appetit/widgets/bottom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
 class AddCategory extends StatefulWidget {
@@ -31,9 +30,9 @@ class _AddCategoryState extends State<AddCategory> {
       child: Container(
         color: Color(0xff757575),
         child: Container(
+          height: MediaQuery.of(context).size.height * 0.30,
           decoration: kBottomSheetOuterBoxDecoration,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.75,
             decoration: kBottomSheetInnerBoxDecoration,
             child: Padding(
               padding: EdgeInsets.all(30.0),
@@ -79,15 +78,11 @@ class _AddCategoryState extends State<AddCategory> {
                         if (result) {
                           if (widget.isAdded) {
                             await DatabaseService(
-                                    uid: Provider.of<FirebaseUser>(context,
-                                            listen: false)
-                                        .uid)
+                                    uid: FirebaseAuth.instance.currentUser.uid)
                                 .editFoodItemCategory(
                                     widget.category.categoryName, categoryName);
                             await DatabaseService(
-                                    uid: Provider.of<FirebaseUser>(context,
-                                            listen: false)
-                                        .uid)
+                                    uid: FirebaseAuth.instance.currentUser.uid)
                                 .insertCategoryData(
                                     widget.category.categoryId,
                                     categoryName ??
@@ -97,9 +92,7 @@ class _AddCategoryState extends State<AddCategory> {
                             String id = randomAlphaNumeric(22);
 
                             await DatabaseService(
-                                    uid: Provider.of<FirebaseUser>(context,
-                                            listen: false)
-                                        .uid)
+                                    uid: FirebaseAuth.instance.currentUser.uid)
                                 .insertCategoryData(id, categoryName);
                             ToastClass.buildShowToast(
                                 'Category added successfully');

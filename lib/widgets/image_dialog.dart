@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:bon_appetit/shared/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,51 +23,53 @@ class _ImageDialogState extends State<ImageDialog> {
 
     return Dialog(
       child: Container(
-        width: 400,
-        height: 410,
+        width: MediaQuery.of(context).size.width * 0.60,
+        height: MediaQuery.of(context).size.height * 0.47,
         child: Column(
           children: [
-            Screenshot(
-              controller: screenshotController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  QrImage(
-                    data: widget.qrData + 'food',
-                    backgroundColor: Colors.white,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 10),
-                    color: Colors.white,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Bon Appetit',
-                      style: GoogleFonts.patuaOne(
-                        fontSize: 25,
-                        color: Colors.black87,
+            Expanded(
+              flex: 4,
+              child: Screenshot(
+                controller: screenshotController,
+                child: Column(
+                  children: [
+                    QrImage(
+                      data: widget.qrData + 'food',
+                      backgroundColor: Colors.white,
+                    ),
+                    Container(
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Bon Appetit',
+                        style: GoogleFonts.patuaOne(
+                          fontSize: 25,
+                          color: Colors.black87,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            BottomButton(
-              onPressed: () async {
-                bool result = await Permission.storage.isGranted;
-                if (result) {
-                  screenshotController.capture().then((File image) async {
-                    await ImageGallerySaver.saveImage(image.readAsBytesSync());
-                    ToastClass.buildShowToast("File Saved to Gallery");
-                  }).catchError((onError) {
-                    print(onError);
-                  });
-                  Navigator.pop(context);
-                } else {
-                  await Permission.storage.request();
-                }
-              },
-              buttonText: 'Download',
+            Expanded(
+              child: BottomButton(
+                onPressed: () async {
+                  bool result = await Permission.storage.isGranted;
+                  if (result) {
+                    screenshotController.capture().then((value) async {
+                      await ImageGallerySaver.saveImage(value);
+                      ToastClass.buildShowToast("File Saved to Gallery");
+                    }).catchError((onError) {
+                      print(onError);
+                    });
+                    Navigator.pop(context);
+                  } else {
+                    await Permission.storage.request();
+                  }
+                },
+                buttonText: 'Download',
+              ),
             ),
           ],
         ),

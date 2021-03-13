@@ -33,10 +33,21 @@ class FoodItemTile extends StatelessWidget {
       child: ExpansionTile(
         title: Row(
           children: [
+            // CircleAvatar(
+            //   radius: 6.0,
+            //   backgroundColor:
+            //       foodItem.foodItemType == 'nonveg' ? Colors.red : Colors.green,
+            // ),
             CircleAvatar(
-              radius: 6.0,
+              radius: 32,
               backgroundColor:
-                  foodItem.foodItemType == 'nonveg' ? Colors.red : Colors.green,
+              foodItem.foodItemType == 'nonveg' ? Colors.red : Colors.green,
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.transparent,
+                backgroundImage:
+                foodItem.foodItemImageUrl == '' ? AssetImage('images/default.jpeg') : NetworkImage(foodItem.foodItemImageUrl),
+              ),
             ),
             SizedBox(
               width: 10.0,
@@ -76,9 +87,7 @@ class FoodItemTile extends StatelessWidget {
                 if (conResult) {
                   if (result ?? false) {
                     await DatabaseService(
-                            uid: Provider.of<FirebaseUser>(context,
-                                    listen: false)
-                                .uid)
+                            uid: FirebaseAuth.instance.currentUser.uid)
                         .deleteFoodItem(foodItem.foodItemId);
                     ToastClass.buildShowToast('Item deleted');
                   }

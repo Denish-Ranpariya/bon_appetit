@@ -9,13 +9,13 @@ class AlertDialogBox extends StatelessWidget {
     return AlertDialog(
       title: Text(textMessage),
       actions: [
-        FlatButton(
+        TextButton(
           child: Text('No'),
           onPressed: () {
             Navigator.pop(context, false);
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('Yes'),
           onPressed: () {
             Navigator.pop(context, true);

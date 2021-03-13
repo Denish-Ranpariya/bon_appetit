@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SideDrawer extends StatelessWidget {
   final Function onPressedQrCode;
@@ -35,7 +34,7 @@ class SideDrawer extends StatelessWidget {
                 CircleAvatar(
                   radius: 60.0,
                   backgroundImage:
-                      NetworkImage(Provider.of<FirebaseUser>(context).photoUrl),
+                      NetworkImage(FirebaseAuth.instance.currentUser.photoURL),
                   backgroundColor: Colors.transparent,
                 ),
                 SizedBox(
@@ -44,7 +43,7 @@ class SideDrawer extends StatelessWidget {
                 Center(
                   child: StreamBuilder(
                     stream: DatabaseService(
-                            uid: Provider.of<FirebaseUser>(context).uid)
+                            uid: FirebaseAuth.instance.currentUser.uid)
                         .restaurantData,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
