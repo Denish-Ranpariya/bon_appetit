@@ -20,6 +20,16 @@ Bon Appetit is a mobile application which allows user to upload restaurant menus
 * Firebase 
 * Firebase Firestore
 
+## Screen shots
+
+![](images/0.jpg)
+![](images/5.jpg)
+![](images/3.jpg)
+![](images/2.jpg)
+![](images/4.jpg)
+![](images/1.jpg)
+
+
 ## About Team Members
 * **Denish Ranpariya** &nbsp; &nbsp;[Resume](https://drive.google.com/file/d/1PZHVHJ8iY283uirxJljFNpCXV4o_U0HJ/view?usp=sharing) &nbsp; &nbsp; [GitHub](https://github.com/Denish-Ranpariya) &nbsp; &nbsp; [LinkedIn](https://www.linkedin.com/in/denish-ranpariya-428478167/)
 * **Manoj Padia** &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;[Resume](https://drive.google.com/file/d/1ycCm70dlmqcwRu7jQRKw6QUSE3ZF23j9/view?usp=drivesdk) &nbsp;&nbsp; &nbsp;[GitHub](https://github.com/ManojPadia) &nbsp;&nbsp; &nbsp; [LinkedIn](https://www.linkedin.com/in/manoj-padiya-9724451a2/)
