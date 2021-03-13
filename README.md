@@ -22,7 +22,6 @@ Bon Appetit is a mobile application which allows user to upload restaurant menus
 
 ## Screen shots
 
-![](images/0.jpg)
 ![](images/5.jpg)
 ![](images/3.jpg)
 ![](images/2.jpg)
