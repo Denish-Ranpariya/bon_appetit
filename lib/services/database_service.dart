@@ -177,7 +177,10 @@ class DatabaseService {
   Restaurant _restaurantDataFromSnapshot(DocumentSnapshot snapshot) {
     return Restaurant(
         restaurantName: snapshot.get('restaurant_name'),
-        restaurantPhoneNumber: snapshot.get('phone_number')
+        restaurantOwnerName: snapshot.get('restaurant_owner_name'),
+        restaurantPhoneNumber: snapshot.get('phone_number'),
+        restaurantAddress: snapshot.get('restaurant_address'),
+        restaurantCity: snapshot.get('city')
     );
   }
 

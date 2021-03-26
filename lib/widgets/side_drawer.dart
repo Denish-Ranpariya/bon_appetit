@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bon_appetit/screens/about_us_screen.dart';
+import 'package:bon_appetit/screens/edit_profile_screen.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,8 +64,23 @@ class SideDrawer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 20,
+
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditProfileScreen()),
+              );
+            },
+            child: Center(
+              child: ListTile(
+                leading: Icon(
+                  Icons.edit,
+                  color: Colors.grey[700],
+                ),
+                title: Text('Edit Profile'),
+              ),
+            ),
           ),
           GestureDetector(
             onTap: onPressedQrCode,

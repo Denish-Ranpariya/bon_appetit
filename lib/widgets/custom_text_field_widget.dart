@@ -6,8 +6,9 @@ class CustomTextField extends StatelessWidget {
   final int maxLine;
   final Function onChange;
   final Function validator;
+  final String initialValue;
   CustomTextField(
-      {this.hintText, this.icon, this.maxLine, this.onChange, this.validator});
+      {this.hintText, this.icon, this.maxLine, this.onChange, this.validator, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
               color: Colors.teal[400],
             ),
             title: TextFormField(
+              initialValue: initialValue,
               validator: validator,
               cursorColor: Colors.teal[400],
               maxLines: maxLine,
