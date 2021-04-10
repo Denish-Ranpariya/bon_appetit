@@ -1,20 +1,21 @@
 import 'dart:io';
 
+import 'package:bon_appetit/models/Order.dart';
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
+import 'package:bon_appetit/models/ordered_food_item.dart';
 import 'package:bon_appetit/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseService {
-
   final String uid;
 
   DatabaseService({this.uid});
 
   final CollectionReference restaurantCollection =
-  FirebaseFirestore.instance.collection('restaurants');
+      FirebaseFirestore.instance.collection('restaurants');
 
   //insert the data of restaurant
   Future updateUserData(String restaurantName, String restaurantOwnerName,
@@ -43,7 +44,7 @@ class DatabaseService {
   Future<void> insertCategoryData(String id, String name) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    FirebaseFirestore.instance.collection(categoryCollectionName);
+        FirebaseFirestore.instance.collection(categoryCollectionName);
     return await categoryCollection.doc(id).set({
       'category_id': id,
       'category_name': name,
@@ -55,8 +56,7 @@ class DatabaseService {
     return snapshot.docs.map((doc) {
       return Category(
           categoryId: doc.get('category_id'),
-          categoryName: doc.get('category_name')
-      );
+          categoryName: doc.get('category_name'));
     }).toList();
   }
 
@@ -64,7 +64,7 @@ class DatabaseService {
   Stream<List<Category>> get categories {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    FirebaseFirestore.instance.collection(categoryCollectionName);
+        FirebaseFirestore.instance.collection(categoryCollectionName);
     return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
 
@@ -72,16 +72,22 @@ class DatabaseService {
   Future<void> deleteCategory(String documentId) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-    FirebaseFirestore.instance.collection(categoryCollectionName);
+        FirebaseFirestore.instance.collection(categoryCollectionName);
     await categoryCollection.doc(documentId).delete();
   }
 
   // to insert or update the data of food item to firestore
-  Future<void> insertFoodItemData(String id, String name, String price,
-      String category, String description, String type,String foodItemImageUrl) async {
+  Future<void> insertFoodItemData(
+      String id,
+      String name,
+      String price,
+      String category,
+      String description,
+      String type,
+      String foodItemImageUrl) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    FirebaseFirestore.instance.collection(foodItemCollectionName);
+        FirebaseFirestore.instance.collection(foodItemCollectionName);
     return await foodItemCollection.doc(id).set({
       'fooditem_id': id,
       'fooditem_name': name,
@@ -89,7 +95,7 @@ class DatabaseService {
       'fooditem_category': category,
       'fooditem_description': description,
       'fooditem_type': type,
-      'fooditem_image' : foodItemImageUrl
+      'fooditem_image': foodItemImageUrl
     });
   }
 
@@ -97,7 +103,7 @@ class DatabaseService {
   Stream<List<FoodItem>> get foodItems {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    FirebaseFirestore.instance.collection(foodItemCollectionName);
+        FirebaseFirestore.instance.collection(foodItemCollectionName);
     return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
   }
 
@@ -111,8 +117,7 @@ class DatabaseService {
           foodItemCategory: doc.get('fooditem_category'),
           foodItemDescription: doc.get('fooditem_description'),
           foodItemType: doc.get('fooditem_type'),
-          foodItemImageUrl: doc.get('fooditem_image')
-      );
+          foodItemImageUrl: doc.get('fooditem_image'));
     }).toList();
   }
 
@@ -120,7 +125,7 @@ class DatabaseService {
   Future<void> deleteFoodItem(String documentId) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    FirebaseFirestore.instance.collection(foodItemCollectionName);
+        FirebaseFirestore.instance.collection(foodItemCollectionName);
     await foodItemCollection.doc(documentId).delete();
   }
 
@@ -129,7 +134,7 @@ class DatabaseService {
       String oldCategoryName, String newCategoryName) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    FirebaseFirestore.instance.collection(foodItemCollectionName);
+        FirebaseFirestore.instance.collection(foodItemCollectionName);
     foodItemCollection
         .where('fooditem_category', isEqualTo: oldCategoryName)
         .get()
@@ -146,7 +151,7 @@ class DatabaseService {
   Future<void> deleteFoodItemCategory(String categoryName) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-    FirebaseFirestore.instance.collection(foodItemCollectionName);
+        FirebaseFirestore.instance.collection(foodItemCollectionName);
     foodItemCollection
         .where('fooditem_category', isEqualTo: categoryName)
         .get()
@@ -171,15 +176,13 @@ class DatabaseService {
         restaurantOwnerName: snapshot.get('restaurant_owner_name'),
         restaurantPhoneNumber: snapshot.get('phone_number'),
         restaurantAddress: snapshot.get('restaurant_address'),
-        restaurantCity: snapshot.get('city')
-    );
+        restaurantCity: snapshot.get('city'));
   }
 
   //upload image to firebase storage
-  static Future<String> uploadImageToFirebaseStorage(String fileName, File filePath) async {
-    final ref = FirebaseStorage.instance
-        .ref('images/')
-        .child(fileName);
+  static Future<String> uploadImageToFirebaseStorage(
+      String fileName, File filePath) async {
+    final ref = FirebaseStorage.instance.ref('images/').child(fileName);
     await ref.putFile(filePath);
 
     final fileUrl = await ref.getDownloadURL();
@@ -189,7 +192,10 @@ class DatabaseService {
 
   //get all documents in pendingorder collection as a list
   Future<List> getPendingOrderCollectionDocuments() async {
-    List l = await FirebaseFirestore.instance.collection(uid+"pendingorders").get().then((value) => value.docs);
+    List l = await FirebaseFirestore.instance
+        .collection(uid + "pendingorders")
+        .get()
+        .then((value) => value.docs);
     print(l.length);
     return l;
   }
@@ -199,7 +205,76 @@ class DatabaseService {
   //
   // }
 
+  static String path;
 
+  Stream<List<Order>> get getPendingOrdersList  {
+    // List l = await FirebaseFirestore.instance
+    //     .collection(uid + "pendingorders")
+    //     .get()
+    //     .then((value) => value.docs);
+    // l.forEach((element) async {
+    //   // FirebaseFirestore.instance
+    //   //     .collection(uid + "pendingorders")
+    //   //     .doc(element)
+    //   //     .collection(element)
+    //   //     .snapshots()
+    //   //     .map(_orderedFoodItemList);
+    //
+    //
+    //   path = element;
+    //   FirebaseFirestore.instance
+    //       .collection(uid + "pendingorders")
+    //       .doc(element).snapshots().map(_orderList);
+    // });
+
+    String collectionPath = uid + "pendingorders";
+    final CollectionReference collectionReference = FirebaseFirestore.instance.collection(collectionPath);
+    return collectionReference.snapshots().map(_orderList);
+  }
+
+  List<Order> _orderList(QuerySnapshot querySnapshot)  {
+    // Stream<List> l = FirebaseFirestore.instance
+    //     .collection(uid + "pendingorders")
+    //     .doc().collection(path).snapshots().map(_orderedFoodItemList);
+    return querySnapshot.docs.map((document){
+      return Order(
+        name: document.get('name'),
+        orderedFoodItemList: FirebaseFirestore.instance
+            .collection(uid + "pendingorders")
+            .doc(document.id).collection(document.id).snapshots().map(_orderedFoodItemList),
+      );
+    }).toList();
+  }
+
+  List<OrderedFoodItem> _orderedFoodItemList(QuerySnapshot querySnapshot) {
+    return querySnapshot.docs.map((document) {
+      return OrderedFoodItem(
+        foodItemName: document.get('fooditem_name'),
+        foodItemPrice: document.get('fooditem_price'),
+        foodItemQuantity: document.get('fooditem_quantity'),
+      );
+    }).toList();
+  }
+
+  // Stream<List<FoodItem>> get foodItems {
+  //   String foodItemCollectionName = uid + 'food';
+  //   final CollectionReference foodItemCollection =
+  //   FirebaseFirestore.instance.collection(foodItemCollectionName);
+  //   return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
+  // }
+
+  // List<FoodItem> _foodItemsListFromSnapshot(QuerySnapshot snapshot) {
+  //   return snapshot.docs.map((doc) {
+  //     return FoodItem(
+  //         foodItemId: doc.get('fooditem_id'),
+  //         foodItemName: doc.get('fooditem_name'),
+  //         foodItemPrice: doc.get('fooditem_price'),
+  //         foodItemCategory: doc.get('fooditem_category'),
+  //         foodItemDescription: doc.get('fooditem_description'),
+  //         foodItemType: doc.get('fooditem_type'),
+  //         foodItemImageUrl: doc.get('fooditem_image')
+  //     );
+  //   }).toList();
+  // }
 
 }
-

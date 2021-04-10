@@ -1,3 +1,4 @@
+import 'package:bon_appetit/models/Order.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,31 +22,40 @@ class _PendingOrderScreenState extends State<PendingOrderScreen> {
           style: TextStyle(color: Colors.grey[800]),
         ),
       ),
-      // body: Container(
-      //   child: FutureBuilder(
-      //     future: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid).getPendingOrderCollectionDocuments(),
-      //     builder: (context, snapshot){
-      //       if(snapshot.hasData){
-      //         List l = snapshot.data;
-      //         return ListView.builder(
-      //             itemCount: l.length,
-      //             itemBuilder: (context, index){
-      //               return Text(l[index]);
-      //             }
-      //         );
-      //       }else{
-      //         return Container(
-      //           child: Text('no data'),
-      //         );
-      //       }
-      //     },
-      //   ),
-      // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await DatabaseService(uid: FirebaseAuth.instance.currentUser.uid).getPendingOrderCollectionDocuments();
+      body: StreamBuilder<List<Order>>(
+        stream: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid).getPendingOrdersList,
+        builder: (context, snapshot){
+          if(snapshot.data != null){
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, outer_index){
+                // return Text(
+                //   snapshot.data[outer_index].name
+                // );
+                return Column(
+                  children: [
+                    Text(
+                      snapshot.data[outer_index].name,
+                    ),
+                    // ListView.builder(
+                    //   itemCount: snapshot.data[outer_index].orderedFoodItemList.length,
+                    //   itemBuilder: ,
+                    // ),
+                  ],
+                );
+              },
+            );
+          }else{
+            return Text('no data');
+          }
+
         },
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await DatabaseService(uid: FirebaseAuth.instance.currentUser.uid).getPendingOrderCollectionDocuments();
+      //   },
+      // ),
     );
   }
 }
