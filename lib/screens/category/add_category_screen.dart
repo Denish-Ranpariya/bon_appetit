@@ -30,7 +30,7 @@ class _AddCategoryState extends State<AddCategory> {
       child: Container(
         color: Color(0xff757575),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.30,
+          height: MediaQuery.of(context).size.height * 0.4,
           decoration: kBottomSheetOuterBoxDecoration,
           child: Container(
             decoration: kBottomSheetInnerBoxDecoration,

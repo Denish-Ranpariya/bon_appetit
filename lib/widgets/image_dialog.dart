@@ -24,7 +24,7 @@ class _ImageDialogState extends State<ImageDialog> {
     return Dialog(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.60,
-        height: MediaQuery.of(context).size.height * 0.47,
+        height: MediaQuery.of(context).size.height * 0.58,
         child: Column(
           children: [
             Expanded(

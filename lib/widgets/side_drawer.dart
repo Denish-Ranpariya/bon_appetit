@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bon_appetit/screens/about_us_screen.dart';
 import 'package:bon_appetit/screens/edit_profile_screen.dart';
+import 'package:bon_appetit/screens/pending_orders_screen.dart';
 import 'package:bon_appetit/services/database_service.dart';
 import 'package:bon_appetit/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,6 +92,23 @@ class SideDrawer extends StatelessWidget {
                   color: Colors.grey[700],
                 ),
                 title: Text('QR code'),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PendingOrderScreen()),
+              );
+            },
+            child: Center(
+              child: ListTile(
+                leading: Icon(
+                  Icons.receipt_long,
+                  color: Colors.grey[700],
+                ),
+                title: Text('Pending Orders'),
               ),
             ),
           ),

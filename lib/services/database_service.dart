@@ -5,6 +5,7 @@ import 'package:bon_appetit/models/food_item.dart';
 import 'package:bon_appetit/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class DatabaseService {
 
@@ -13,7 +14,7 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   final CollectionReference restaurantCollection =
-      FirebaseFirestore.instance.collection('restaurants');
+  FirebaseFirestore.instance.collection('restaurants');
 
   //insert the data of restaurant
   Future updateUserData(String restaurantName, String restaurantOwnerName,
@@ -42,7 +43,7 @@ class DatabaseService {
   Future<void> insertCategoryData(String id, String name) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-        FirebaseFirestore.instance.collection(categoryCollectionName);
+    FirebaseFirestore.instance.collection(categoryCollectionName);
     return await categoryCollection.doc(id).set({
       'category_id': id,
       'category_name': name,
@@ -63,7 +64,7 @@ class DatabaseService {
   Stream<List<Category>> get categories {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-        FirebaseFirestore.instance.collection(categoryCollectionName);
+    FirebaseFirestore.instance.collection(categoryCollectionName);
     return categoryCollection.snapshots().map(_categoryListFromSnapshot);
   }
 
@@ -71,7 +72,7 @@ class DatabaseService {
   Future<void> deleteCategory(String documentId) async {
     String categoryCollectionName = uid + 'category';
     final CollectionReference categoryCollection =
-        FirebaseFirestore.instance.collection(categoryCollectionName);
+    FirebaseFirestore.instance.collection(categoryCollectionName);
     await categoryCollection.doc(documentId).delete();
   }
 
@@ -80,7 +81,7 @@ class DatabaseService {
       String category, String description, String type,String foodItemImageUrl) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-        FirebaseFirestore.instance.collection(foodItemCollectionName);
+    FirebaseFirestore.instance.collection(foodItemCollectionName);
     return await foodItemCollection.doc(id).set({
       'fooditem_id': id,
       'fooditem_name': name,
@@ -96,7 +97,7 @@ class DatabaseService {
   Stream<List<FoodItem>> get foodItems {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-        FirebaseFirestore.instance.collection(foodItemCollectionName);
+    FirebaseFirestore.instance.collection(foodItemCollectionName);
     return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
   }
 
@@ -104,13 +105,13 @@ class DatabaseService {
   List<FoodItem> _foodItemsListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return FoodItem(
-        foodItemId: doc.get('fooditem_id'),
-        foodItemName: doc.get('fooditem_name'),
-        foodItemPrice: doc.get('fooditem_price'),
-        foodItemCategory: doc.get('fooditem_category'),
-        foodItemDescription: doc.get('fooditem_description'),
-        foodItemType: doc.get('fooditem_type'),
-        foodItemImageUrl: doc.get('fooditem_image')
+          foodItemId: doc.get('fooditem_id'),
+          foodItemName: doc.get('fooditem_name'),
+          foodItemPrice: doc.get('fooditem_price'),
+          foodItemCategory: doc.get('fooditem_category'),
+          foodItemDescription: doc.get('fooditem_description'),
+          foodItemType: doc.get('fooditem_type'),
+          foodItemImageUrl: doc.get('fooditem_image')
       );
     }).toList();
   }
@@ -119,7 +120,7 @@ class DatabaseService {
   Future<void> deleteFoodItem(String documentId) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-        FirebaseFirestore.instance.collection(foodItemCollectionName);
+    FirebaseFirestore.instance.collection(foodItemCollectionName);
     await foodItemCollection.doc(documentId).delete();
   }
 
@@ -128,7 +129,7 @@ class DatabaseService {
       String oldCategoryName, String newCategoryName) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-        FirebaseFirestore.instance.collection(foodItemCollectionName);
+    FirebaseFirestore.instance.collection(foodItemCollectionName);
     foodItemCollection
         .where('fooditem_category', isEqualTo: oldCategoryName)
         .get()
@@ -145,7 +146,7 @@ class DatabaseService {
   Future<void> deleteFoodItemCategory(String categoryName) async {
     String foodItemCollectionName = uid + 'food';
     final CollectionReference foodItemCollection =
-        FirebaseFirestore.instance.collection(foodItemCollectionName);
+    FirebaseFirestore.instance.collection(foodItemCollectionName);
     foodItemCollection
         .where('fooditem_category', isEqualTo: categoryName)
         .get()
@@ -156,16 +157,6 @@ class DatabaseService {
     });
   }
 
-  // //get the name of restaurant
-  // Future<String> get getRestaurantName async {
-  //   return await restaurantCollection.document(uid).get().then((value) {
-  //     if (value.exists) {
-  //       return value.data['restaurant_name'];
-  //     }
-  //     return null;
-  //   });
-  // }
-  //
   Stream<Restaurant> get restaurantData {
     return FirebaseFirestore.instance
         .collection('restaurants')
@@ -196,5 +187,19 @@ class DatabaseService {
     return fileUrl;
   }
 
+  //get all documents in pendingorder collection as a list
+  Future<List> getPendingOrderCollectionDocuments() async {
+    List l = await FirebaseFirestore.instance.collection(uid+"pendingorders").get().then((value) => value.docs);
+    print(l.length);
+    return l;
+  }
+
+  //
+  // Stream<List<OrderedFoodItem>> getPendingOrdersList async {
+  //
+  // }
+
+
 
 }
+
