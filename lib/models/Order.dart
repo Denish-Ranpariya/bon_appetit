@@ -1,8 +1,6 @@
-import 'package:bon_appetit/models/ordered_food_item.dart';
-
 class Order{
-  Stream<List<OrderedFoodItem>> orderedFoodItemList;
   String name;
+  String orderId;
 
-  Order({this.orderedFoodItemList, this.name});
+  Order({this.name, this.orderId});
 }

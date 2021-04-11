@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:bon_appetit/models/Order.dart';
 import 'package:bon_appetit/models/category.dart';
 import 'package:bon_appetit/models/food_item.dart';
-import 'package:bon_appetit/models/ordered_food_item.dart';
 import 'package:bon_appetit/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 
 class DatabaseService {
   final String uid;
@@ -200,81 +198,20 @@ class DatabaseService {
     return l;
   }
 
-  //
-  // Stream<List<OrderedFoodItem>> getPendingOrdersList async {
-  //
-  // }
-
-  static String path;
 
   Stream<List<Order>> get getPendingOrdersList  {
-    // List l = await FirebaseFirestore.instance
-    //     .collection(uid + "pendingorders")
-    //     .get()
-    //     .then((value) => value.docs);
-    // l.forEach((element) async {
-    //   // FirebaseFirestore.instance
-    //   //     .collection(uid + "pendingorders")
-    //   //     .doc(element)
-    //   //     .collection(element)
-    //   //     .snapshots()
-    //   //     .map(_orderedFoodItemList);
-    //
-    //
-    //   path = element;
-    //   FirebaseFirestore.instance
-    //       .collection(uid + "pendingorders")
-    //       .doc(element).snapshots().map(_orderList);
-    // });
-
     String collectionPath = uid + "pendingorders";
     final CollectionReference collectionReference = FirebaseFirestore.instance.collection(collectionPath);
     return collectionReference.snapshots().map(_orderList);
   }
 
   List<Order> _orderList(QuerySnapshot querySnapshot)  {
-    // Stream<List> l = FirebaseFirestore.instance
-    //     .collection(uid + "pendingorders")
-    //     .doc().collection(path).snapshots().map(_orderedFoodItemList);
     return querySnapshot.docs.map((document){
       return Order(
         name: document.get('name'),
-        orderedFoodItemList: FirebaseFirestore.instance
-            .collection(uid + "pendingorders")
-            .doc(document.id).collection(document.id).snapshots().map(_orderedFoodItemList),
+        orderId: document.get('order_id'),
       );
     }).toList();
   }
-
-  List<OrderedFoodItem> _orderedFoodItemList(QuerySnapshot querySnapshot) {
-    return querySnapshot.docs.map((document) {
-      return OrderedFoodItem(
-        foodItemName: document.get('fooditem_name'),
-        foodItemPrice: document.get('fooditem_price'),
-        foodItemQuantity: document.get('fooditem_quantity'),
-      );
-    }).toList();
-  }
-
-  // Stream<List<FoodItem>> get foodItems {
-  //   String foodItemCollectionName = uid + 'food';
-  //   final CollectionReference foodItemCollection =
-  //   FirebaseFirestore.instance.collection(foodItemCollectionName);
-  //   return foodItemCollection.snapshots().map(_foodItemsListFromSnapshot);
-  // }
-
-  // List<FoodItem> _foodItemsListFromSnapshot(QuerySnapshot snapshot) {
-  //   return snapshot.docs.map((doc) {
-  //     return FoodItem(
-  //         foodItemId: doc.get('fooditem_id'),
-  //         foodItemName: doc.get('fooditem_name'),
-  //         foodItemPrice: doc.get('fooditem_price'),
-  //         foodItemCategory: doc.get('fooditem_category'),
-  //         foodItemDescription: doc.get('fooditem_description'),
-  //         foodItemType: doc.get('fooditem_type'),
-  //         foodItemImageUrl: doc.get('fooditem_image')
-  //     );
-  //   }).toList();
-  // }
 
 }

@@ -23,32 +23,102 @@ class _PendingOrderScreenState extends State<PendingOrderScreen> {
         ),
       ),
       body: StreamBuilder<List<Order>>(
-        stream: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid).getPendingOrdersList,
-        builder: (context, snapshot){
-          if(snapshot.data != null){
+        stream: DatabaseService(uid: FirebaseAuth.instance.currentUser.uid)
+            .getPendingOrdersList,
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            List<Order> orders = snapshot.data;
             return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, outer_index){
+              itemCount: orders.length,
+              itemBuilder: (context, outerIndex) {
                 // return Text(
                 //   snapshot.data[outer_index].name
                 // );
                 return Column(
                   children: [
                     Text(
-                      snapshot.data[outer_index].name,
+                      orders[outerIndex].name,
                     ),
-                    // ListView.builder(
-                    //   itemCount: snapshot.data[outer_index].orderedFoodItemList.length,
-                    //   itemBuilder: ,
+                    Text(
+                      orders[outerIndex].orderId,
+                    ),
+                    // StreamBuilder<List<OrderedFoodItem>>(
+                    //   stream: orders[outerIndex].orderedFoodItemList,
+                    //   builder: (context,innerSnapshot){
+                    //     if(innerSnapshot.hasData){
+                    //       List<OrderedFoodItem> foodItemList = innerSnapshot.data;
+                    //       return ListView.builder(
+                    //         shrinkWrap: true,
+                    //         itemCount: foodItemList.length,
+                    //         itemBuilder: (context, innerIndex) {
+                    //           return Column(
+                    //             children: [
+                    //               Text(
+                    //                   foodItemList[innerIndex].foodItemName
+                    //               ),
+                    //               Text(
+                    //                   foodItemList[innerIndex].foodItemPrice
+                    //               ),
+                    //               Text(
+                    //                   foodItemList[innerIndex].foodItemQuantity
+                    //               ),
+                    //             ],
+                    //           );
+                    //         },
+                    //       );
+                    //     } else {
+                    //       return Text('no data');
+                    //     }
+                    //   },
                     // ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(FirebaseAuth.instance.currentUser.uid +
+                              'pendingorders')
+                          .doc(orders[outerIndex].orderId)
+                          .collection('ordered_fooditems_collection')
+                          .snapshots(),
+                      builder: (context, innerSnapshot) {
+                        if (innerSnapshot.hasData) {
+                          // return Text(innerSnapshot.data.docs.map((document){
+                          //   document.get['fooditem_name'].toString();
+                          // }));
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: innerSnapshot.data.docs.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Text(
+                                    innerSnapshot.data.docs[index]
+                                        .get('fooditem_name')
+                                        .toString(),
+                                    // style: TextStyle(
+                                    //     fontSize: 20,
+                                    //     fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(innerSnapshot.data.docs[index]
+                                      .get('fooditem_price')
+                                      .toString()),
+                                  Text(innerSnapshot.data.docs[index]
+                                      .get('fooditem_quantity')
+                                      .toString()),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          return Text('No data');
+                        }
+                      },
+                    ),
                   ],
                 );
               },
             );
-          }else{
+          } else {
             return Text('no data');
           }
-
         },
       ),
       // floatingActionButton: FloatingActionButton(
